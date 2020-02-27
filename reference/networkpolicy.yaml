@@ -1,0 +1,30 @@
+---
+# Kubernetes NetworkPolicy, applied to the project by Happy Potter.
+#
+# This network policy allows access to all pods in the namespaces from all pods
+# in the namespace and for all traffic external to the cluster. This means that
+# traffic between pods of different namespaces is blocked, as per the AppStore
+# security concept.
+#
+# This file is added as a reference for the developer, and can safely be
+# removed. It is not possible to modify or delete this policy. If two
+# applications need to connect to each other, this should be implemented by
+# calls over the API gateway.
+#
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: "prai-information-desk-networkpolicy"
+  namespace: "prai-information-desk"
+spec:
+  podSelector: {}  # Applied to all pods in the namespace.
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+      - podSelector: {}  # Granted to all pods in the namespace.
+      - ipBlock:
+          cidr: 0.0.0.0/0
+          except:
+            - 10.43.0.0/16
+            - 172.21.0.0/16

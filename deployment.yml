@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prai-information-desk
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prai-information-desk
+    spec:
+      containers:
+      - name: prai-information-desk
+        image: registry.roqs.basf.net/prai_information_desk/prai_information_desk
+        ports:
+          - containerPort: 5000
+        env:
+          - name: http_proxy
+            value: "http://10.4.55.31:8080"
+          - name: https_proxy
+            value: "http://10.4.55.31:8080"
+          - name: no_proxy
+            value: "localhost,127.0.0.1"
+          - name: REVERSE_PROXY_REQUIRED
+            value: jupp
+        # Adjust as required by your app
+        # Take care : 
+        # - Limit too low & pod will get killed.
+        # - Limit too high & pod will not get scheduled.
+        # https://cloud.google.com/blog/products/gcp/kubernetes-best-practices-resource-requests-and-limits
+        resources:
+          limits:
+            # cpu: "1"
+            memory: "1000Mi"
+          requests:
+            # cpu: "0.5"
+            memory: "150Mi"
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: prai-information-desk
+spec:
+  selector:
+    app: prai-information-desk
+  ports:
+    - port: 5000
+      nodePort: 31755
+  type: NodePort
