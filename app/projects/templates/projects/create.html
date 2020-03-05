@@ -1,0 +1,67 @@
+<!--books/templates/books/book-create.html-->
+{% extends "tabs.html" %}
+{% load static %}
+
+{% block tabs%}
+<label class="checked tablabel"> General Project Information </label>
+<label class="tablabel"> <a href="#createModelInstanceFirst" data-toggle="modal" style="color: inherit;text-decoration:none;">Additional Information</a> </label>
+<label class="tablabel"> <a href="#createModelInstanceFirst" data-toggle="modal" style="color: inherit;text-decoration:none;">Monthly work load</a> </label>
+
+{% endblock %}
+{% block tab_content %}
+{% load crispy_forms_tags %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'projects/autocomplete_dropdown.css' %}">
+{% endblock %}
+
+
+<div class="container-fluid">
+  <form action="/projects/create/" method="POST" style="font-weight: 0.1em;" autocomplete="off">
+    {% csrf_token %}
+        <div class="row">
+            <div class="col-6"><!--left side -->
+            {% for field in form %}
+            {{ field| as_crispy_field }}
+              {% if forloop.counter == 7 %}
+            </div>
+            <div class="col-6">
+              {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary"> Create & continue </button>
+          </div>
+    </form>
+</div>
+
+
+<!-- Modal -->
+  <div class="modal fade" id="createModelInstanceFirst">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"> Notification </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          Create new entry by filling in general project information first. Subsequently you can add additional properties.
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript" src="{% static 'projects/autocomplete_dropdown.js' %}"></script>
+
+
+{% endblock %}

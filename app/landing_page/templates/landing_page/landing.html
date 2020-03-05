@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PrAI</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="/static/favicon.ico"/>
+  <style>
+
+  header {
+    position: relative;
+    height: 60vh;
+    min-height: 25rem;
+    width: 100%;
+    overflow: hidden;
+  }
+  header .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  header img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: 0;
+      -ms-transform: translateX(-50%) translateY(-50%);
+      -moz-transform: translateX(-50%) translateY(-50%);
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+      padding-bottom: 300px;
+    }
+
+    .vertical-center { /*centering for lower part of the screen (25%)*/
+        min-height: 25%;
+        min-height: 25vh;
+        display: flex;
+        align-items: center;
+  }
+  </style>
+</head>
+
+<body>
+
+<main role="main">
+
+<header>
+  <div class="overlay"></div>
+  <img src = "static/landing_page/landing.jpg">
+
+  <div class="container h-100">
+    <div class="d-flex h-100 text-center align-items-center">
+      <div class="w-100">
+        <h1 class ="h1 text-white" style="font-size: 11vw;">PrAI</h1>
+        <p class="display-4 text-white" style="font-size: 3.5vw; background: rgba(17, 55, 136, 0.8);"><strong> Project Information Desk for Production AI</strong></p>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <div class="container-flex vertical-center">
+    <div class="row">
+      <div class="col-md-4 card-body d-flex flex-column">
+          <h3>Add your project</h3>
+          <p> Keep track of your project and capacities by adding them to your groups's database.</p>
+          {% if user.is_authenticated %}
+          <a type="button" class="mt-auto btn btn-outline-primary" href="projects/list"> Project administration &raquo;</a>
+          {% else %}
+          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/projects/list/" > Project administration </a>
+          {% endif%}
+      </div>
+
+      <div class="col-md-4 card-body d-flex flex-column">
+          <h3>Manage your progress</h3>
+          <p> Keep track of the progress of your yearly projects and share with your collegues what you've been working on.</p>
+          {% if user.is_authenticated %}
+          <a type="button" class="mt-auto btn btn-outline-primary" href="kanban"> Progress management &raquo;</a>
+          {% else %}
+          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/kanban/" > Progress management &raquo;</a>
+          {% endif%}
+      </div>
+
+      <div class="col-md-4 card-body d-flex flex-column">
+          <h3>Share your results</h3>
+          <p> You can share your results by making your project reports accessible to the team. </p>
+          {% if user.is_authenticated %}
+          <a type="button" class="mt-auto btn btn-outline-primary" href="#"> Reports & knowledge transfer &raquo;</a>
+          {% else %}
+          <a type="button"  class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/kanban/" > Reports & knowledge transfer &raquo;</a>
+          {% endif %}
+      </div>
+
+      <!--<div class="col-md-4">
+        <h3>Share your results</h3>
+        <p> You can share your results by making your project reports accessible to the team. </p>
+        <p><a class="btn btn-secondary" href="reports/" role="button"> Have a look &raquo;</a></p>
+      </div>-->
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
+
+</main>
+
+<footer class="page-footer">
+    <hr>
+    <div class="container-fluid text-center text-md-left">
+  <p>&copy; BASF SE 2020</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block page_content %}
+<div class="container-fluid pt-3">
+
+<div class="d-flex justify-content-between">
+      <!-- Sorting-->
+      <div class="mx-auto">
+        <h3 class="font-weight-light"> Members of Production AI </h3>
+      </div>
+      <div>
+        <a type="button" class="btn btn-secondary" href="/users/create"> <i class="fa fa-plus-square mr-3 fa-fw"></i> Add member ... </a>
+      </div>
+
+</div>
+
+ <br style ="line-height:10px;">
+
+  <table class="table">
+      <tr>
+          <thead class="thead-light">
+              <tr>
+                  {% for header in columns %}
+                    <th scope="col"> {{header}} </th>
+                  {% endfor %}
+                  <th scope="col"> <i class="fa fa-cogs mr-3 fa-fw"></i> </th>
+                  <!--<th scope="col"> <i class="fa fa-cogs mr-3 fa-fw"></i> </th>-->
+              </tr>
+          </thead>
+          <tbody>
+              {% for person in persons %}
+              <tr>
+                {% for k, v in person.fields.items %}
+                  <td>{{v}}</td>
+                {% endfor %}
+                <td><div><a href="/users/edit1/{{person.pk}}/"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a>
+                  <a href="/users/delete/{{person.pk}}/"><i class="fa fa-ban text-primary mr-3 fa-fw"></i></a></div>
+                </td>
+
+                  <!--<td>{{project.pk}}</td>-->
+              </tr>
+              {% endfor %}
+          </tbody>
+  </table>
+</div>
+
+{% endblock %}

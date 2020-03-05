@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<div class="text-center">
+<h2> Do you really want to delete this entry?</h2>
+
+<br>
+<form action="{% url 'projects:entry_delete' object.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-secondary" value="Delete" />
+    <a href="/projects/list/"><button class="btn btn-secondary" type="button">Cancel</button></a>
+
+</form>
+
+</div>
+
+{% endblock %}
