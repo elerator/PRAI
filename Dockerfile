@@ -1,4 +1,4 @@
-FROM registry.roqs.basf.net/base-images/ubuntu-python3-flaskrestplus:latest
+FROM registry.roqs.basf.net/base-images/ubuntu:latest
 
 ADD . .
 EXPOSE 5000
