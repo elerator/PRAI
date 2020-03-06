@@ -1,4 +1,4 @@
-FROM registry.roqs.basf.net/base-images/python:3.7
+FROM python:3.7
 
 ADD . .
 EXPOSE 5000
