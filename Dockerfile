@@ -4,5 +4,4 @@ ADD . .
 EXPOSE 5000
 RUN GIT_SSL_NO_VERIFY=1 pip3 install -r requirements.txt
 RUN ls -la
-
-COPY api.py api.py
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:5000"]

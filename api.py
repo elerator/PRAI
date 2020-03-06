@@ -27,8 +27,6 @@ class Ping(Resource):
         return {'ping':'PONG'}
 
 if __name__ == "__main__":
-    #app.run(debug=True)
+    app.run(debug=True)
     for x in range(1000):
-        print("Hello world")
-
-    os.system("python ./manage.py runserver 0.0.0.0:5000")
+        print("Hello world from Michael")
