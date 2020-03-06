@@ -1,0 +1,43 @@
+<!--books/templates/books/book-create.html-->
+{% extends "tabs.html" %}
+
+{% block tabs%}
+<a href="/users/edit1/{{person.pk}}"><label class="tablabel"> Personal information </label></a>
+<a href="/users/edit2/{{person.pk}}/{{year}}"><label class="tablabel checked"> Work Time Model </label></a>
+
+{% endblock %}
+{% block tab_content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container-fluid">
+  <h4 style="text-align: center;"> Work Time Model for {{person}} in {{year}}</h4>
+  <br>
+
+  <form action="/users/edit2/{{person.pk}}/{{year}}" method="POST" style="font-weight: 0.1em;">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6"><!--left side -->
+            {% for field in form %}
+            {{ field| as_crispy_field }}
+              {% if forloop.counter == 6 %}
+            </div>
+            <div class="col-6">
+              {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">save updates</button>
+    </form>
+    {% if worktimes %}
+    <form action="/users/delete_work_time/{{worktimes.pk}}" method="POST" style="display:inline;">{% csrf_token %}<button type="submit" class="btn btn-primary">reset</button></form>
+    {% endif %}
+              </div>
+</div>
+<hr>
+  <div class="d-flex justify-content-between">
+      <div>
+      <a href="/users/edit2/{{person.pk}}/{{year|add:"-1"}}"> Previous year </a></div>
+      <div class="text-primary"> Work Time Model for {{year}}</div>
+      <div>
+      <a href="/users/edit2/{{person.pk}}/{{year|add:"+1"}}"> Next year </a></div>
+    </div>
+{% endblock %}

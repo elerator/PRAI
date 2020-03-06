@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<style>
+    #align-text-bottom {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+
+  .dropdown-menu > form > button:hover {
+      background-color: lightgray;
+      background-image: none;
+      cursor: pointer;
+  }
+  .dropdown-menu > form {
+    margin-bottom: 0 !important;
+  }
+
+  input[readonly] {
+    background-color:transparent !important;;
+      border: 1 !important;
+  }
+
+</style>
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+{% block page_content %}
+
+
+<div class="container-fluid pt-3">
+  <div class="d-flex justify-content-between">
+        <!-- Sorting-->
+        <div>
+          <h3 class="font-weight-normal"> &nbsp; <b> {{ selected_person }}, {{ selected_year }}</b> &nbsp; (Monthly workload) </h3>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>
+             <a class="btn btn-secondary dropdown-toggle" style="width: 80px !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               {{ selected_year }}
+             </a>
+             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+               {% now "Y" as current_year %}
+               {% with start=current_year|add:"-5" end=current_year|add:"+10"%}
+               {% with ''|center:end as range %}<!-- Get a range from 0 to end -->
+               {% for _ in range %}
+                   {% if forloop.counter < start %}<!-- Skip all years smaller then start -->
+                   {% else %}
+                    <form action="/capacities/set_year" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
+                   {% endif %}
+               {% endfor %}
+               {% endwith %}
+               {% endwith %}
+             </div>
+           </div>
+         <div>&nbsp;</div>
+         <div>
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Select team member
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {% for person in persons %}
+                <form action="/capacities/set_person" method="POST"><input type="hidden" name="person_id" value="{{person.id}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ person }}</button></form>
+              {% endfor %}
+            </div>
+          </div>
+       </div>
+   </div>
+     <div class="container" style="margin-top:20%;">
+       <div class="d-flex justify-content-between"> <div> For the given year and person no projects were found. Mind that you must assign the monthly workload before projects show up here. </div></div>
+     </div>
+
+</div>
+{% endblock %}

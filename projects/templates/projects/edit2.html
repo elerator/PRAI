@@ -1,0 +1,30 @@
+<!--books/templates/books/book-create.html-->
+{% extends "tabs.html" %}
+{% load static %}
+
+{% block tabs%}
+<a href="/projects/edit1/{{pk}}"><label class="tablabel"> General Project Information </label></a>
+<a href="/projects/edit2/{{pk}}"><label class="checked tablabel"> Additional Information </label></a>
+<a href="/projects/edit3/{{pk}}/{% now "Y" %}"><label class="tablabel"> Monthly workload </label></a>
+
+{% endblock %}
+{% block tab_content %}
+{% load crispy_forms_tags %}
+
+<div class="container-fluid">
+  <form action="/projects/edit2/{{pk}}/" method="POST" style="font-weight: 0.1em;">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6"><!--left side -->
+            {% for field in form %}
+            {{ field| as_crispy_field }}
+              {% if forloop.counter == 7 %}
+            </div>
+            <div class="col-6">
+              {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">save</button>
+          </div>
+    </form>
+</div>
+{% endblock %}

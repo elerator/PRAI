@@ -24,7 +24,7 @@ spec:
           - name: REVERSE_PROXY_REQUIRED
             value: jupp
         # Adjust as required by your app
-        # Take care : 
+        # Take care :
         # - Limit too low & pod will get killed.
         # - Limit too high & pod will not get scheduled.
         # https://cloud.google.com/blog/products/gcp/kubernetes-best-practices-resource-requests-and-limits

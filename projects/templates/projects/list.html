@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+{{pk.0}}
+
+<style>
+  #align-text-bottom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+.dropdown-menu > a:hover {
+    background-color: lightgray;
+    background-image: none;
+    cursor: pointer;
+}
+
+.dropdown-menu > form > button:hover {
+    background-color: lightgray;
+    background-image: none;
+    cursor: pointer;
+}
+
+.dropdown-menu > form {
+  margin-bottom: 0 !important;
+}
+
+
+</style>
+
+<div class="container-fluid pt-3">
+
+<div class="d-flex justify-content-between">
+      <!-- Sorting-->
+      <div class="d-flex justify-content-between">
+         <div>
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/projects/list/sortby/title">Title</a>
+            <a class="dropdown-item" href="/projects/list/sortby/goal">Goal</a>
+            <a class="dropdown-item" href="/projects/list/sortby/plant_name">Plant name</a>
+          </div>
+        </div>
+
+        <div>&nbsp;</div>
+
+        <!-- Search bar -->
+        <form action="/projects/list/search/" method="POST" style="font-weight: 0.1em;" autocomplete="off">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="text" name="search_string" class="form-control" placeholder="Search ...">
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="Submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div>&nbsp;</div>
+
+        <!-- Search  in (filter)-->
+        <div>
+         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           Search in '{{search_in}}'
+         </a>
+         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="title">{% csrf_token %}<button type="submit" class="dropdown-item"> Title </button></form>
+           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="tools">{% csrf_token %}<button type="submit" class="dropdown-item"> Tools </button></form>
+           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="plant_name">{% csrf_token %}<button type="submit" class="dropdown-item"> Plant name </button></form>
+           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="all_fields">{% csrf_token %}<button type="submit" class="dropdown-item"> All fields </button></form>
+         </div>
+       </div>
+     </div>
+
+      <div>
+        <a type="button" class="btn btn-secondary" href="/projects/create/"> <i class="fa fa-plus-square mr-3 fa-fw"></i> Add project ... </a>
+      </div>
+ </div>
+
+<br style ="line-height:10px;">
+
+
+<table class="table">
+    <tr>
+        <thead class="thead-light">
+            <tr>
+                {% for header in columns %}
+                  <th scope="col"> {{header}} </th>
+                {% endfor %}
+                <th scope="col"> <i class="fa fa-cogs mr-3 fa-fw"></i> </th>
+                <!--<th scope="col"> <i class="fa fa-cogs mr-3 fa-fw"></i> </th>-->
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+            <tr>
+              {% for k, v in project.fields.items %}
+                <td>{{v}}</td>
+              {% endfor %}
+              <td><div><a href="/projects/edit1/{{project.pk}}/"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a>
+                <a href="/projects/delete/{{project.pk}}/"><i class="fa fa-ban text-primary mr-3 fa-fw"></i></a></div>
+              </td>
+
+                <!--<td>{{project.pk}}</td>-->
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+
+</div>
+
+{% if is_paginated %}
+    {% include "_pagination.html" %}
+{% endif %}
+
+
+{% endblock %}
