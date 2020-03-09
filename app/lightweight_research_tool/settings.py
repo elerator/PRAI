@@ -65,7 +65,7 @@ ROOT_URLCONF = 'lightweight_research_tool.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["lightweight_research_tool/templates/"],
+        'DIRS': ["./app/lightweight_research_tool/templates/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
