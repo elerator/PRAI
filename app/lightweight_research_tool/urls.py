@@ -16,12 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-site_root = "prai_information_desk/"
 urlpatterns = [
-    path(site_root + 'admin/', admin.site.urls),
-    path(site_root + 'projects/', include("projects.urls")),
-    path(site_root + '', include("landing_page.urls")),
-    path(site_root + 'kanban/', include("kanban.urls")),
-    path(site_root + 'capacities/', include("capacities.urls")),
-    path(site_root + 'users/', include("users.urls")),
+    path('admin/', admin.site.urls),
+    path('projects/', include("projects.urls")),
+    path('', include("landing_page.urls")),
+    path('kanban/', include("kanban.urls")),
+    path('capacities/', include("capacities.urls")),
+    path('users/', include("users.urls")),
 ]
