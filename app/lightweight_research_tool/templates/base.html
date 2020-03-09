@@ -40,12 +40,12 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                   {% if user.is_authenticated %}
-                  <nobr><a class="nav-link" href="{% url 'logout' %}" > logout {{ request.user.username }} </a></nobr>
+                  <nobr><a class="nav-link" href="prai_information_desk/{% url 'logout' %}" > logout {{ request.user.username }} </a></nobr>
                   {% else %}
                     {% if next %}
-                    <a class="nav-link" href="{% url 'login_page' %}?next={{next}}" > login </a>
+                    <a class="nav-link" href="prai_information_desk/{% url 'login_page' %}?next={{next}}" > login </a>
                     {% else %}
-                    <a class="nav-link" href="{% url 'login_page' %}?next=/projects/list/" > login </a>
+                    <a class="nav-link" href="prai_information_desk/{% url 'login_page' %}?next=/projects/list/" > login </a>
                     {% endif %}
                   {% endif %}
                 </li>
