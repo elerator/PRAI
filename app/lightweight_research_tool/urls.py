@@ -15,16 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls import url
-
 
 urlpatterns = [
-    url(r'^prai_information_desk/', include([
-        path('admin/', admin.site.urls),
-        path('projects/', include("projects.urls")),
-        path('', include("landing_page.urls")),
-        path('kanban/', include("kanban.urls")),
-        path('capacities/', include("capacities.urls")),
-        path('users/', include("users.urls")),
-    ])),
+    path('admin/', admin.site.urls),
+    path('projects/', include("projects.urls")),
+    path('', include("landing_page.urls")),
+    path('kanban/', include("kanban.urls")),
+    path('capacities/', include("capacities.urls")),
+    path('users/', include("users.urls")),
 ]
