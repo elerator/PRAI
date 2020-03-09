@@ -28,7 +28,7 @@ SECRET_KEY = '#3y9(ds5gklmkry$8(11ot1@$i3aj8bh+(%+yue1tvvzms=qlw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'lightweight_research_tool.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(os.path.join(os.path.split(BASE_DIR)[0],"database"), 'db.sqlite3'),
     }
 }
 
