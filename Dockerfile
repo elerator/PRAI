@@ -12,5 +12,4 @@ RUN apt-get install python3.6 -y && \
 
 EXPOSE 5000
 
-RUN cd app
-CMD ["python3", "./manage.py", "runserver", "0.0.0.0:5000"]
+CMD ["python3", "./app/manage.py", "runserver", "0.0.0.0:5000"]
