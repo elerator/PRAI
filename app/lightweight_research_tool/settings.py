@@ -17,9 +17,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = "/static"#os.path.join(BASE_DIR, "static/")
 
 
-"""
+
 USE_X_FORWARDED_HOST = True
 FORCE_SCRIPT_NAME = 'prai_information_desk'
+
+"""
 
 STATIC_SUFFIX = '/static/'
 STATIC_URL = FORCE_SCRIPT_NAME + STATIC_SUFFIX
@@ -74,7 +76,7 @@ ROOT_URLCONF = 'lightweight_research_tool.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["./app/lightweight_research_tool/templates/"],
+        'DIRS': ["lightweight_research_tool/templates/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
