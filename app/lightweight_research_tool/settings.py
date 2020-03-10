@@ -24,7 +24,6 @@ LOGIN_URL = FORCE_SCRIPT_NAME+'login_required'
 
 
 """
-
 STATIC_SUFFIX = '/static/'
 STATIC_URL = FORCE_SCRIPT_NAME + STATIC_SUFFIX
 STATIC_ROOT = STATIC_URL
@@ -141,7 +140,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = FORCE_SCRIPT_NAME+'static/'
 
 STATICFILES_DIRS = [#Add the path to the static files on project level here
     os.path.join(BASE_DIR, "lightweight_research_tool/static"),
