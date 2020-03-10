@@ -19,7 +19,8 @@ STATIC_ROOT = "/static"#os.path.join(BASE_DIR, "static/")
 
 
 #USE_X_FORWARDED_HOST = True
-FORCE_SCRIPT_NAME = 'prai_information_desk'
+FORCE_SCRIPT_NAME = 'https://app-dev.roqs.basf.net/prai_information_desk/'
+#FORCE_SCRIPT_NAME = "http://127.0.0.1:8009/"
 
 """
 

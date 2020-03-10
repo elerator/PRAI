@@ -72,7 +72,7 @@
           <h3>Add your project</h3>
           <p> Keep track of your project and capacities by adding them to your groups's database.</p>
           {% if user.is_authenticated %}
-          <a type="button" class="mt-auto btn btn-outline-primary" href="projects/list"> Project administration &raquo;</a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href="/projects/list"> Project administration &raquo;</a>
           {% else %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/projects/list/" > Project administration </a>
           {% endif%}
@@ -82,7 +82,7 @@
           <h3>Manage your progress</h3>
           <p> Keep track of the progress of your yearly projects and share with your collegues what you've been working on.</p>
           {% if user.is_authenticated %}
-          <a type="button" class="mt-auto btn btn-outline-primary" href="kanban"> Progress management &raquo;</a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href="/kanban"> Progress management &raquo;</a>
           {% else %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/kanban/" > Progress management &raquo;</a>
           {% endif%}
