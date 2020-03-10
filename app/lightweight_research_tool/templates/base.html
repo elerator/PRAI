@@ -40,12 +40,12 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                   {% if user.is_authenticated %}
-                  <nobr><a class="nav-link" href="{% url 'logout' %}" > logout {{ request.user.username }} </a></nobr>
+                  <nobr><a class="nav-link" href="/{% url 'logout' %}" > logout {{ request.user.username }} </a></nobr>
                   {% else %}
                     {% if next %}
-                    <a class="nav-link" href="{% url 'login_page' %}?next={{next}}" > login </a>
+                    <a class="nav-link" href="/{% url 'login_page' %}?next={{next}}" > login </a>
                     {% else %}
-                    <a class="nav-link" href="{% url 'login_page' %}?next=/projects/list/" > login </a>
+                    <a class="nav-link" href="/{% url 'login_page' %}?next=/projects/list/" > login </a>
                     {% endif %}
                   {% endif %}
                 </li>
@@ -57,27 +57,27 @@
     <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0"><br> Projects </p>
     <ul class="nav flex-column bg-gray mb-0">
       <li class="nav-item">
-        <a href={% url 'projects:project-list' %} class="nav-link text-dark font-italic">
+        <a href="/{% url 'projects:project-list' %}" class="nav-link text-dark font-italic">
                   <i class="fa fa-product-hunt mr-3 text-primary fa-fw"></i>
                   Project administration
               </a>
       </li>
       <li class="nav-item">
-        <a href={% url 'kanban:kanban' %} class="nav-link text-dark font-italic">
+        <a href="/{% url 'kanban:kanban' %}" class="nav-link text-dark font-italic">
                   <i class="fa fa-columns mr-3 text-primary fa-fw"></i>
                   Kanban board
               </a>
       </li>
 
       <li class="nav-item">
-        <a href={% url 'capacities:capacities' %} class="nav-link text-dark font-italic">
+        <a href="/{% url 'capacities:capacities' %}" class="nav-link text-dark font-italic">
                   <i class="fa fa-table mr-3 text-primary fa-fw"></i>
                   Capacity table
               </a>
       </li>
 
       <li class="nav-item">
-        <a href={% url 'capacities:burndown' %} class="nav-link text-dark font-italic">
+        <a href="/{% url 'capacities:burndown' %}" class="nav-link text-dark font-italic">
                   <i class="fa fa-bar-chart mr-3 text-primary fa-fw"></i>
                   Burndown graph
               </a>
@@ -103,7 +103,7 @@
     <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0"><br> Users </p>
     <ul class="nav flex-column bg-gray mb-0">
       <li class="nav-item">
-        <a href={% url 'users:user_list' %} class="nav-link text-dark font-italic">
+        <a href="/{% url 'users:user_list' %}" class="nav-link text-dark font-italic">
                   <i class="fa fa-user mr-3 text-primary fa-fw"></i>
                   Users & settings
               </a>
