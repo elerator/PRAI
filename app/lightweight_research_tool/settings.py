@@ -19,7 +19,7 @@ STATIC_ROOT = "/static"#os.path.join(BASE_DIR, "static/")
 
 
 USE_X_FORWARDED_HOST = True
-FORCE_SCRIPT_NAME = 'prai_information_desk'
+#FORCE_SCRIPT_NAME = 'prai_information_desk'
 
 """
 
