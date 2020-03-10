@@ -61,7 +61,7 @@
                {% for _ in range %}
                    {% if forloop.counter < start %}<!-- Skip all years smaller then start -->
                    {% else %}
-                    <form action="/capacities/set_year" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
+                    <form action="{% url 'capacities:capacities_set_year' %}" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
                    {% endif %}
                {% endfor %}
                {% endwith %}
