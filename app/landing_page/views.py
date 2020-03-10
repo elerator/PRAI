@@ -53,4 +53,4 @@ def login_required(request):
     try:
         return render(request, 'landing_page/login_required.html', {"next":request.GET["next"]})
     except:
-        return HttpResponse("Bad Request",status=400)
+        return HttpResponse("Bad Request at login required: Next is " + request.GET["next"],status=400)
