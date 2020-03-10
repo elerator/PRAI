@@ -29,10 +29,12 @@ import datetime
 from django.contrib.auth.decorators import login_required
 import os
 
+
+
 def tests(request):
     return HttpResponse(os.listdir("\\\\basfad.basf.net\\groups\\0050-BASF\\LUDWIGSHAFEN\\R\\GROUPS\\HM"))
 
-@login_required(login_url='/login_required')
+@login_required()
 def set_search_in(request):
     """ Adds the field search_in to the session object
     Args:
@@ -45,7 +47,7 @@ def set_search_in(request):
     else:
         return HttpResponse(status=400)
 
-@login_required(login_url='/login_required')
+@login_required()
 def search(request):
     if request.method == 'POST':
         try:
@@ -323,7 +325,7 @@ class ProjectEditThird(UpdateView):
         #return render(request, self.template_name, {'project_letter_main': form})
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-@login_required(login_url='/login_required')
+@login_required()
 def delete_work_time(request, pk):
     if request.method == "POST":
         obj = get_object_or_404(YearlyWorkload, id = pk)

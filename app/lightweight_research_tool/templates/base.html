@@ -43,7 +43,7 @@
                   <nobr><a class="nav-link" href="{% url 'logout' %}" > logout {{ request.user.username }} </a></nobr>
                   {% else %}
                     {% if next %}
-                    <a class="nav-link" href="{% url 'login_page' %}?next=/prai_information_desk/{{next}}" > login </a>
+                    <a class="nav-link" href="{% url 'login_page' %}?next={{next}}" > login </a>
                     {% else %}
                     <a class="nav-link" href="{% url 'login_page' %}?next=/prai_information_desk/projects/list/" > login </a>
                     {% endif %}
