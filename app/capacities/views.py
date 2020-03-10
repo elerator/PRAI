@@ -16,7 +16,7 @@ import plotly.graph_objs as go
 from django.shortcuts import get_object_or_404
 
 
-@login_required(login_url='/login_required')
+@login_required()
 def set_year(request):
     """ Adds the field search_in to the session object
     Args:
@@ -29,7 +29,7 @@ def set_year(request):
     else:
         return HttpResponse(status=400)
 
-@login_required(login_url='/login_required')
+@login_required()
 def set_person(request):
     """ Adds the field search_in to the session object
     Args:
@@ -90,7 +90,7 @@ def get_monthly_workload(yearly_workloads):
     monthly_workload = np.array(monthly_workload)
     return monthly_workload
 
-@login_required(login_url='/login_required')
+@login_required()
 def group_capacities(request):
     context = {}
     users = Person.objects.all().exclude(is_superuser=True)
@@ -109,7 +109,7 @@ def group_capacities(request):
     context["persons"] = users
     return render(request, 'capacities/capacities_group.html', context)
 
-@login_required(login_url='/login_required')
+@login_required()
 def capacities(request):
     context = {}
     context["part_time"] = {}
@@ -154,7 +154,7 @@ def capacities(request):
     context["project_rows"] = list(zip(projects,monthly_workload))
     return render(request, 'capacities/capacities.html', context)
 
-@login_required(login_url='/login_required')
+@login_required()
 def burndown(request):
     context = {}
     context["persons"] = Person.objects.all().exclude(is_superuser=True)

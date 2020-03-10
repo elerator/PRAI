@@ -173,7 +173,7 @@ class DeleteUser(DeleteView):
             return HttpResponse('The user is not superuser')#TODO make a nice errorview
         return super(DeleteUser, self).post(request, *args, **kwargs)
 
-@login_required(login_url='/login_required')
+@login_required()
 def delete_work_time(request, pk):
     if request.method == "POST":
         obj = get_object_or_404(WorkTimeModel, id = pk)
