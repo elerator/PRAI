@@ -74,7 +74,7 @@
           {% if user.is_authenticated %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="/projects/list"> Project administration &raquo;</a>
           {% else %}
-          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/projects/list/" > Project administration </a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next={% url 'projects:project-list' %}" > Project administration </a>
           {% endif%}
       </div>
 
@@ -84,7 +84,7 @@
           {% if user.is_authenticated %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="/kanban"> Progress management &raquo;</a>
           {% else %}
-          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/kanban/" > Progress management &raquo;</a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next={% url 'kanban:kanban' %}" > Progress management &raquo;</a>
           {% endif%}
       </div>
 
@@ -94,7 +94,7 @@
           {% if user.is_authenticated %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="#"> Reports & knowledge transfer &raquo;</a>
           {% else %}
-          <a type="button"  class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next=/kanban/" > Reports & knowledge transfer &raquo;</a>
+          <a type="button"  class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next={% url 'kanban:kanban' %}" > Reports & knowledge transfer &raquo;</a>
           {% endif %}
       </div>
 
