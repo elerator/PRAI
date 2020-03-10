@@ -142,5 +142,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [#Add the path to the static files on project level here
-    os.path.join(BASE_DIR, "lightweight_research_tool/static"),
+    os.path.join(BASE_DIR, "./app/lightweight_research_tool/static"),
 ]
