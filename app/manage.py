@@ -18,4 +18,5 @@ def main():
 
 
 if __name__ == '__main__':
+    print(os.listdir(os.path.join(os.getcwd(),"database")))
     main()
