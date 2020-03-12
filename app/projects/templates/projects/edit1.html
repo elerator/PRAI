@@ -3,9 +3,9 @@
 {% load static %}
 
 {% block tabs%}
-<a href="/projects/edit1/{{pk}}"><label class="checked tablabel"> General Project Information </label></a>
-<a href="/projects/edit2/{{pk}}"><label class="tablabel"> Additional Information </label></a>
-<a href="/projects/edit3/{{pk}}/{% now "Y" %}"><label class="tablabel"> Monthly workload </label></a>
+<a href="{% url 'projects:edit1' pk=pk %}"><label class="checked tablabel"> General Project Information </label></a>
+<a href="{% url 'projects:edit2' pk=pk %}"><label class="tablabel"> Additional Information </label></a>
+<a href="{% url 'projects:edit3' pk=pk year=current_year %}"><label class="tablabel"> Monthly workload </label></a>
 
 {% endblock %}
 {% block tab_content %}
@@ -16,7 +16,7 @@
 {% endblock %}
 
 <div class="container-fluid">
-  <form action="/projects/edit1/{{pk}}/" method="POST" style="font-weight: 0.1em;"  autocomplete="off">
+  <form action="{% url 'projects:edit1' pk=pk %}" method="POST" style="font-weight: 0.1em;"  autocomplete="off">
         {% csrf_token %}
         <div class="row">
             <div class="col-6"><!--left side -->

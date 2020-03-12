@@ -8,7 +8,7 @@
 <form action="{% url 'projects:entry_delete' object.pk %}" method="post">
     {% csrf_token %}
     <input type="submit" class="btn btn-secondary" value="Delete" />
-    <a href="/projects/list/"><button class="btn btn-secondary" type="button">Cancel</button></a>
+    <a href="{% url 'projects:list'%}"><button class="btn btn-secondary" type="button">Cancel</button></a>
 
 </form>
 

@@ -28,8 +28,7 @@ import numpy as np
 import datetime
 from django.contrib.auth.decorators import login_required
 import os
-
-
+import datetime
 
 def tests(request):
     return HttpResponse(os.listdir("\\\\basfad.basf.net\\groups\\0050-BASF\\LUDWIGSHAFEN\\R\\GROUPS\\HM"))
@@ -168,6 +167,7 @@ class ProjectEdit(UpdateView):
             form_helper = self.form_class()
             context = {'form': form_helper}
 
+        context["current_year"] = datetime.datetime.now().year
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -201,12 +201,10 @@ class ProjectCreate(ProjectEdit):
     template_name = 'projects/create.html'
     form_class = GeneralProjectInformation
 
-    def redirect(self, pk):
-        return HttpResponseRedirect(reverse_lazy('projects:edit2',args=[pk]))
-
 class ProjectEditFirst(ProjectEdit):
     template_name = 'projects/edit1.html'
     form_class = GeneralProjectInformation
+
 
 class ProjectEditSecond(ProjectEdit):
     template_name = 'projects/edit2.html'
@@ -277,6 +275,10 @@ class ProjectEditThird(UpdateView):
         context['form'] = form_helper
         context["research_project"] = research_project
         context["year"] = year
+        context["current_year"] = year
+        context["next_year"] = year+1
+        context["previous_year"] = year-1
+
         context["maximal_budget"] = research_project.budget
         context["budget_share"] = contributor.budget_share
         return render(request, self.template_name, context)

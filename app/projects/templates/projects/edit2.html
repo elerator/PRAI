@@ -3,16 +3,16 @@
 {% load static %}
 
 {% block tabs%}
-<a href="/projects/edit1/{{pk}}"><label class="tablabel"> General Project Information </label></a>
-<a href="/projects/edit2/{{pk}}"><label class="checked tablabel"> Additional Information </label></a>
-<a href="/projects/edit3/{{pk}}/{% now "Y" %}"><label class="tablabel"> Monthly workload </label></a>
+<a href="{% url 'projects:edit1' pk=pk %}"><label class="tablabel"> General Project Information </label></a>
+<a href="{% url 'projects:edit2' pk=pk %}"><label class="checked tablabel"> Additional Information </label></a>
+<a href="{% url 'projects:edit3' pk=pk year=current_year %}"><label class="tablabel"> Monthly workload </label></a>
 
 {% endblock %}
 {% block tab_content %}
 {% load crispy_forms_tags %}
 
 <div class="container-fluid">
-  <form action="/projects/edit2/{{pk}}/" method="POST" style="font-weight: 0.1em;">
+  <form action="{% url 'projects:edit2' pk=pk %}" method="POST" style="font-weight: 0.1em;">
         {% csrf_token %}
         <div class="row">
             <div class="col-6"><!--left side -->

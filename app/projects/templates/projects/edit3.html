@@ -2,9 +2,9 @@
 {% extends "tabs.html" %}
 
 {% block tabs%}
-<a href="/projects/edit1/{{research_project.pk}}"><label class="tablabel"> General Project Information </label></a>
-<a href="/projects/edit2/{{research_project.pk}}"><label class="tablabel"> Additional Information </label></a>
-<a href="/projects/edit3/{{research_project.pk}}/{% now "Y" %}"><label class="tablabel checked"> Monthly workload </label></a>
+<a href="{% url 'projects:edit1' pk=research_project.pk %}"><label class="tablabel"> General Project Information </label></a>
+<a href="{% url 'projects:edit2' pk=research_project.pk %}"><label class="tablabel"> Additional Information </label></a>
+<a href="{% url 'projects:edit3' pk=research_project.pk year=current_year %}"><label class="tablabel checked"> Monthly workload </label></a>
 
 {% endblock %}
 {% block tab_content %}
@@ -15,7 +15,7 @@
   <h4 style="text-align: center;"> Your personal workload for this project in {{year}}</h4>
   <br>
 
-  <form action="/projects/edit3/{{research_project.pk}}/{{year}}" method="POST" style="font-weight: 0.1em;">
+  <form action="{% url 'projects:edit3' pk=research_project.pk year=current_year %}" method="POST" style="font-weight: 0.1em;">
         {% csrf_token %}
         <div id="div_id_budget_share" class="form-group">
                  <label for="id_budget_share" class=" requiredField">
@@ -38,7 +38,7 @@
             <button type="submit" class="btn btn-primary">save</button>
         </form>
         {% if yearly_workload %}
-        <form action="/projects/delete_workload/{{yearly_workload.pk}}" method="POST" style="display:inline;">{% csrf_token %}<button type="submit" class="btn btn-primary">reset</button></form>
+        <form action="{% url 'projects:delete_workload' pk=yearly_workload.pk %}" method="POST" style="display:inline;">{% csrf_token %}<button type="submit" class="btn btn-primary">reset</button></form>
         {% endif %}
       </div>
 </div>
@@ -46,9 +46,9 @@
 <hr>
   <div class="d-flex justify-content-between">
       <div>
-      <a href="/projects/edit3/{{research_project.pk}}/{{year|add:"-1"}}"> Previous year </a></div>
+      <a href="{% url 'projects:edit3' pk=research_project.pk year=previous_year %}"> Previous year </a></div>
       <div class="text-primary">Workload for {{year}}</div>
       <div>
-      <a href="/projects/edit3/{{research_project.pk}}/{{year|add:"+1"}}"> Next year </a></div>
+      <a href="{% url 'projects:edit3' pk=research_project.pk year=next_year %}"> Next year </a></div>
     </div>
 {% endblock %}

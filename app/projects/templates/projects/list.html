@@ -39,16 +39,16 @@
             Sort by
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="/projects/list/sortby/title">Title</a>
-            <a class="dropdown-item" href="/projects/list/sortby/goal">Goal</a>
-            <a class="dropdown-item" href="/projects/list/sortby/plant_name">Plant name</a>
+            <a class="dropdown-item" href="{% url 'projects:set_sorting' sorting='title' %}>Title</a>
+            <a class="dropdown-item" href="{% url 'projects:set_sorting' sorting='goal' %}">Goal</a>
+            <a class="dropdown-item" href="{% url 'projects:set_sorting' sorting='plant_name' %}">Plant name</a>
           </div>
         </div>
 
         <div>&nbsp;</div>
 
         <!-- Search bar -->
-        <form action="/projects/list/search/" method="POST" style="font-weight: 0.1em;" autocomplete="off">
+        <form action="{% url 'projects:search' %}" method="POST" style="font-weight: 0.1em;" autocomplete="off">
           {% csrf_token %}
           <div class="input-group">
             <input type="text" name="search_string" class="form-control" placeholder="Search ...">
@@ -68,16 +68,16 @@
            Search in '{{search_in}}'
          </a>
          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="title">{% csrf_token %}<button type="submit" class="dropdown-item"> Title </button></form>
-           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="tools">{% csrf_token %}<button type="submit" class="dropdown-item"> Tools </button></form>
-           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="plant_name">{% csrf_token %}<button type="submit" class="dropdown-item"> Plant name </button></form>
-           <form action='/projects/list/search_in/' method="POST"><input type="hidden" name="search_in" value="all_fields">{% csrf_token %}<button type="submit" class="dropdown-item"> All fields </button></form>
+           <form action='{% url 'projects:set_search_in' %}' method="POST"><input type="hidden" name="search_in" value="title">{% csrf_token %}<button type="submit" class="dropdown-item"> Title </button></form>
+           <form action='{% url 'projects:set_search_in' %}' method="POST"><input type="hidden" name="search_in" value="tools">{% csrf_token %}<button type="submit" class="dropdown-item"> Tools </button></form>
+           <form action='{% url 'projects:set_search_in' %}' method="POST"><input type="hidden" name="search_in" value="plant_name">{% csrf_token %}<button type="submit" class="dropdown-item"> Plant name </button></form>
+           <form action='{% url 'projects:set_search_in' %}' method="POST"><input type="hidden" name="search_in" value="all_fields">{% csrf_token %}<button type="submit" class="dropdown-item"> All fields </button></form>
          </div>
        </div>
      </div>
 
       <div>
-        <a type="button" class="btn btn-secondary" href="/projects/create/"> <i class="fa fa-plus-square mr-3 fa-fw"></i> Add project ... </a>
+        <a type="button" class="btn btn-secondary" href="{% url 'projects:create' %}"> <i class="fa fa-plus-square mr-3 fa-fw"></i> Add project ... </a>
       </div>
  </div>
 
@@ -101,10 +101,9 @@
               {% for k, v in project.fields.items %}
                 <td>{{v}}</td>
               {% endfor %}
-              <td><div><a href="/projects/edit1/{{project.pk}}/"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a>
-                <a href="/projects/delete/{{project.pk}}/"><i class="fa fa-ban text-primary mr-3 fa-fw"></i></a></div>
+              <td><div><a href="{% url 'projects:edit1' pk=project.pk %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a>
+                <a href="{% url 'projects:entry_delete' pk=project.pk %}"><i class="fa fa-ban text-primary mr-3 fa-fw"></i></a></div>
               </td>
-
                 <!--<td>{{project.pk}}</td>-->
             </tr>
             {% endfor %}
