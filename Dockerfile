@@ -6,6 +6,7 @@ ENV https_proxy https://clientproxy.basf.net:8080
 ADD ./app ./app
 ADD ./database ./database
 RUN ls ./database
+RUN chmod a+rw database database/*
 
 RUN apt-get update && \
     apt-get install python3.6 -y && \

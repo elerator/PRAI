@@ -32,8 +32,9 @@ def login(request):
                     user = Person.objects.filter(username=request.POST["username"])[0]
                     django_login(request, user)
                     return HttpResponseRedirect(request.POST["next"])
-                except Exception:
-                    return render(request, 'landing_page/login_page.html', {"errors":True})
+                except Exception as e:
+                    #return render(request, 'landing_page/login_page.html', {"errors":True})
+                    return HttpResponse(str(e))
             else:
                 return render(request, 'landing_page/login_page.html', {"errors":True,"next":request.POST["next"]})
         except MultiValueDictKeyError:#TODO the only exception type of relevance?
