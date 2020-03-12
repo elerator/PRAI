@@ -9,7 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <link rel="shortcut icon" type="image/png" href="/static/favicon.ico"/>
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
   <style>
 
   header {
@@ -74,7 +74,7 @@
           <h3>Add your project</h3>
           <p> Keep track of your project and capacities by adding them to your groups's database.</p>
           {% if user.is_authenticated %}
-          <a type="button" class="mt-auto btn btn-outline-primary" href="/projects/list"> Project administration &raquo;</a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href={% url 'projects:project-list' %}> Project administration &raquo;</a>
           {% else %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next={% url 'projects:project-list' %}" > Project administration </a>
           {% endif%}
@@ -84,7 +84,7 @@
           <h3>Manage your progress</h3>
           <p> Keep track of the progress of your yearly projects and share with your collegues what you've been working on.</p>
           {% if user.is_authenticated %}
-          <a type="button" class="mt-auto btn btn-outline-primary" href="/kanban"> Progress management &raquo;</a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href={% url 'kanban:kanban' %}> Progress management &raquo;</a>
           {% else %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next={% url 'kanban:kanban' %}" > Progress management &raquo;</a>
           {% endif%}

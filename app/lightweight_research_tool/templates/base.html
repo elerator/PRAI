@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'horizontal_navbar.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'vertical_navbar.css' %}">
-<style>    body {zoom: 1.0;}</style>
+<style>body {zoom: 1.0;}</style>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -45,7 +45,7 @@
                     {% if next %}
                     <a class="nav-link" href="{% url 'login_page' %}?next={{next}}" > login </a>
                     {% else %}
-                    <a class="nav-link" href="{% url 'login_page' %}?next=/prai_information_desk/projects/list/" > login </a>
+                    <a class="nav-link" href="{% url 'login_page' %}?next={% url 'projects:project-list' %}" > login </a>
                     {% endif %}
                   {% endif %}
                 </li>

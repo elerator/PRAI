@@ -13,11 +13,7 @@ from django.contrib.auth import logout as django_logout
 import os
 
 def landing_page(request):
-    print("------------------------")
-    print(os.listdir())
     return render(request, 'landing_page/landing.html', {})
-    #os.system("python manage.py collectstatic --noinput")
-    #return HttpResponse(str(os.listdir("./static")))
 
 def login_view(request):
     try:

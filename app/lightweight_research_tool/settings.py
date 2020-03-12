@@ -23,10 +23,9 @@ FORCE_SCRIPT_NAME = '/prai_information_desk'
 LOGIN_URL = FORCE_SCRIPT_NAME+'/login_required'
 STATIC_SUFFIX = '/static/'
 STATIC_URL = FORCE_SCRIPT_NAME + STATIC_SUFFIX
-AUTH_USER_MODEL = 'users.Person'
 ###### END OF PRODCUTION SPECIFIC SETTINGS ####
 
-
+AUTH_USER_MODEL = 'users.Person'
 SECRET_KEY = '#3y9(ds5gklmkry$8(11ot1@$i3aj8bh+(%+yue1tvvzms=qlw'
 
 
@@ -135,6 +134,6 @@ USE_TZ = True
 
 #STATIC_URL = 'static/'
 
-#STATICFILES_DIRS = [#Add the path to the static files on project level here
-#    os.path.join(BASE_DIR, "lightweight_research_tool/static"),
-#]
+STATICFILES_DIRS = [#Add the path to the static files on project level here (required for local development only)
+    os.path.join(BASE_DIR, "lightweight_research_tool/static"),
+]

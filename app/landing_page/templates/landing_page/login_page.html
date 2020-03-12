@@ -10,7 +10,7 @@
 <div id="myModal" class="modal fade">
 	<div class="modal-dialog modal-login">
 		<div class="modal-content">
-			<form action="/login" method="post">
+			<form action="{% url 'login' %}"" method="post">
 				{% csrf_token %}
 				<div class="modal-header">
 					<h4 class="modal-title">Login</h4>
