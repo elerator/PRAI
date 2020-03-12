@@ -7,7 +7,8 @@ ADD ./app ./app
 ADD ./database ./database
 RUN ls ./database
 
-RUN apt-get install python3.6 -y && \
+RUN apt-get update && \
+    apt-get install python3.6 -y && \
     apt-get install python3-pip -y && \
     pip3 install -r ./app/requirements.txt
 
