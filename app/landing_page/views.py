@@ -11,21 +11,21 @@ from django.urls import reverse_lazy
 from django.contrib.auth import logout as django_logout
 from urllib.parse import quote, unquote
 import os
-from basf_auth import check_authentication
+#import basf_auth
 
 def landing_page(request):
     return render(request, 'landing_page/landing.html', {})
 
-def check_auth(request):
+"""def check_auth(request):
     session_federation = session.get('basf_federation')
-    cookie_federation_cn = request.cookies.get('basf_federation_cn')
-    cookie_federation_access_token = request.cookies.get('basf_federation_access_token')
+    cookie_federation_cn = request.COOKIES.get('basf_federation_cn')
+    cookie_federation_access_token = request.COOKIES.get('basf_federation_access_token')
     auth_header = request.headers.get('Authorization')
     auth_result = basf_auth.check_authentication(session_federation, cookie_federation_cn, cookie_federation_access_token, auth_header)
     if auth_result:
         session['basf_federation'] = auth_result
 
-    return auth_result
+    return auth_result"""
 
 def login_view(request):
     try:
@@ -39,7 +39,8 @@ def login_view(request):
 
 def after_login(request):
     redirect_url = request.GET["next"]
-    return HttpResponse(request.COOKIES.get('basf_federation_logged_in'))
+    auth_header = request.META['Authorization']
+    return HttpResponse(str(auth_header))
     #return HttpResponseRedirect(redirect_url)
 
 def login(request):
