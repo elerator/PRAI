@@ -1,7 +1,7 @@
 <!--books/templates/books/book-create.html-->
 {% extends "tabs.html" %}
 
-{% block tabs%}
+{% block tabs %}
 <a href="{% url 'users:user_edit1' pk=person.pk %}"><label class="tablabel checked"> Personal information </label></a>
 <a href="{% url 'users:user_edit2' pk=person.pk year=current_year %}"><label class="tablabel"> Work Time Model </label></a>
 

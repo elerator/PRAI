@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
+
+{% endblock %}
+{% block scripts %}
+{% endblock %}
 {% block page_content %}
+
 <div class="container-fluid pt-3">
      <div class="container" style="margin-top:20%;">
-       <div class="d-flex justify-content-between"> <div> Only the superuser is allowed to delete users. </div></div>
+        <div style="text-align:center;">  Only superusers are allowed to delete users. You can be everything you want for sure, but i'm afraid you are not a superuser. </div>
      </div>
+
 </div>
 {% endblock %}
