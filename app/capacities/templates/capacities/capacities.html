@@ -116,7 +116,7 @@
                     {% for column in per_month %}
                       <td> <input type="number" class="form-control" name="workload_jan" value="{{ column }}" min="0" id="" readonly> </td>
                     {% endfor %}
-                    <td> <a href="{% url 'projects:edit2' pk=selected_person.pk %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
+                    <td> <a href="{% url 'users:user_edit2' pk=selected_person.pk year=selected_year %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
                   </tr>
                   {% endfor %}
             </tbody>
@@ -145,7 +145,7 @@
                         {% for column in load %}
                           <td> <input type="number" class="form-control" name="workload_jan" value="{{ column }}" min="0" id=""  readonly> </td>
                         {% endfor %}
-                        <td> <a href="{% url 'projects:edit3' pk=selected_person.pk year=selected_year %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
+                        <td> <a href="{% url 'projects:edit3' pk=project.pk year=selected_year %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
                       </tr>
                       {% endfor %}
                       {% for label, values in stats_workload.items %}

@@ -8,4 +8,5 @@ urlpatterns = [
     path('logout', logout, name="logout"),
     path('login_required', login_required, name="login_required"),
     path('login', login, name='login'),
+    path('after_login/<str:sorting>', after_login, name="after_login")
 ]

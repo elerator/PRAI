@@ -25,6 +25,7 @@ def basf_authentification(basf_username, password):
     return True
 
 def login(request):
+
     if request.method == 'POST':
         try:
             if basf_authentification(request.POST["username"],request.POST["password"]):

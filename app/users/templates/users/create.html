@@ -2,7 +2,8 @@
 {% extends "tabs.html" %}
 
 {% block tabs%}
-<a href="{% 'users:user_edit1' pk=person.pk %}"><label class="tablabel checked"> Personal information </label></a>
+<a><label class="tablabel checked"> Personal information </label></a>
+
 <a href="#createModelInstanceFirst" data-toggle="modal" style="color: inherit;text-decoration:none;"><label class="tablabel"> Work Time Model </label></a>
 
 {% endblock %}

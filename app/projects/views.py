@@ -54,8 +54,20 @@ def search(request):
         except:
             return HttpResponse(status=400)
 
-        #projects = ResearchProject.objects.filter(title__contains='Test')
-        projects = ResearchProject.objects.all()
+        projects = None
+        if 'search_in' in request.session:
+            if request.session['search_in'] == 'all_fields':
+                projects = ResearchProject.objects.all()
+            elif request.session['search_in'] == 'title':
+                projects = ResearchProject.objects.filter(title__contains=search_string)
+            elif request.session['search_in'] == 'tools':
+                projects = ResearchProject.objects.filter(tools__contains=search_string)
+            elif request.session['search_in'] == 'plant_name':
+                projects = ResearchProject.objects.filter(plant_name__contains=search_string)
+        else:
+            projects = ResearchProject.objects.all()
+
+        # Search in serialized data: Inefficient but simple and flexible ...
         projects = serializers.serialize( "python", projects, fields = public_labels.keys())
         pks = [p["pk"] for p in projects]
         fields = [p["fields"] for p in projects]
