@@ -9,7 +9,7 @@ from users.models import Person
 from django.utils.datastructures import MultiValueDictKeyError
 from django.urls import reverse_lazy
 from django.contrib.auth import logout as django_logout
-
+from urllib.parse import quote, unquote
 import os
 
 def landing_page(request):
@@ -17,15 +17,22 @@ def landing_page(request):
 
 def login_view(request):
     try:
-        return render(request, 'landing_page/login_page.html', {"next":request.GET["next"]})
+        next = request.GET["next"]
+        url = "https://app.roqs.basf.net/auth/login.html?redirect_uri=https%3A%2F%2Fapp-dev.roqs.basf.net%2Fprai_information_desk%2Fafter_login"
+        url += "?next="
+        url += quote(next, safe="")
+        return HttpResponseRedirect(url)
     except:
         return HttpResponse("Bad Request",status=400)
 
-def basf_authentification(basf_username, password):
-    return True
+def after_login(request, redirect_url):
+    redirect_url = request.GET["next"]
+    return HttpResponse(request.COOKIES.get('basf_federation_logged_in'))
+    #return HttpResponseRedirect(redirect_url)
 
 def login(request):
-
+    return login_view(request)
+    """
     if request.method == 'POST':
         try:
             if basf_authentification(request.POST["username"],request.POST["password"]):
@@ -41,7 +48,7 @@ def login(request):
         except MultiValueDictKeyError:#TODO the only exception type of relevance?
             return HttpResponse("Bad Request",status=400)
     else:
-        return HttpResponse("Bad Request",status=400)
+        return HttpResponse("Bad Request",status=400)"""
 
 def logout(request):
     django_logout(request)
