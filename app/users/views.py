@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+import datetime
 
 from .forms import *
 
@@ -71,6 +72,10 @@ class PersonWorkTime(UpdateView):
         context['form'] = form_helper
         context["pk"] = pk
         context["year"] = year
+        context["current_year"] = datetime.datetime.now().year
+        context["previous_year"] = year -1
+        context["next_year"] = year + 1
+
         context["person"] = person
         return render(request, self.template_name, context)
 
@@ -117,7 +122,7 @@ class UserEditMain(UpdateView):
         try:#If a primary key was passed retrieve and display the values
             person = Person.objects.get(pk=kwargs["pk"])
             form = self.form_class(instance=person)
-            context = {'form': form, "person":person}
+            context = {'form': form, "person":person, "current_year":datetime.datetime.now().year}
         except Exception:
             return HttpResponse("Bad request", status=400)
         return render(request, self.template_name, context)
@@ -170,8 +175,9 @@ class DeleteUser(DeleteView):
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_superuser:
-            return HttpResponse('The user is not superuser')#TODO make a nice errorview
+            return render(request, "users/superuser_required.html")
         return super(DeleteUser, self).post(request, *args, **kwargs)
+
 
 @login_required()
 def delete_work_time(request, pk):

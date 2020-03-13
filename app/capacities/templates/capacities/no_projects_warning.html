@@ -9,11 +9,23 @@
       right: 0;
     }
 
-  .dropdown-menu > form > button:hover {
+  .dropdown-menu > form > button:hover{
       background-color: lightgray;
       background-image: none;
       cursor: pointer;
   }
+
+  .dropdown-menu > a {
+    text-decoration: none;
+  }
+
+  .dropdown-menu > a > button:hover {
+    background-color: lightgray;
+    background-image: none;
+    cursor: pointer;
+  }
+
+
   .dropdown-menu > form {
     margin-bottom: 0 !important;
   }
@@ -24,6 +36,7 @@
   }
 
 </style>
+
 {% endblock %}
 {% block scripts %}
 {% endblock %}
@@ -48,7 +61,7 @@
                {% for _ in range %}
                    {% if forloop.counter < start %}<!-- Skip all years smaller then start -->
                    {% else %}
-                    <form action="/capacities/set_year" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
+                    <form action="{% url 'capacities:capacities_set_year' %}" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
                    {% endif %}
                {% endfor %}
                {% endwith %}
@@ -58,12 +71,14 @@
          <div>&nbsp;</div>
          <div>
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select team member
+              {{ selected_person }}
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               {% for person in persons %}
-                <form action="/capacities/set_person" method="POST"><input type="hidden" name="person_id" value="{{person.id}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ person }}</button></form>
+                <form action="{% url 'capacities:capacities_set_person' %}" method="POST"><input type="hidden" name="person_id" value="{{person.id}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ person }}</button></form>
               {% endfor %}
+              <hr style='padding:0;display: block;margin: 0px 0;content: " ";'>
+              <a href="{% url 'capacities:group_capacities' %}" > <button class="dropdown-item"> Whole Group </button> </a>
             </div>
           </div>
        </div>

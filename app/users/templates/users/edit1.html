@@ -2,8 +2,8 @@
 {% extends "tabs.html" %}
 
 {% block tabs%}
-<a href="/users/edit1/{{person.pk}}"><label class="tablabel checked"> Personal information </label></a>
-<a href="/users/edit2/{{person.pk}}/{% now "Y" %}"><label class="tablabel"> Work Time Model </label></a>
+<a href="{% url 'users:user_edit1' pk=person.pk %}"><label class="tablabel checked"> Personal information </label></a>
+<a href="{% url 'users:user_edit2' pk=person.pk year=current_year %}"><label class="tablabel"> Work Time Model </label></a>
 
 {% endblock %}
 {% block tab_content %}
@@ -14,7 +14,7 @@
   <h4 style="text-align: center;"> Personal information for {{person}}</h4>
   <br>
 
-  <form action="/users/edit1/{{person.pk}}/" method="POST" style="font-weight: 0.1em;">
+  <form action="{% url 'users:user_edit1' pk=person.pk %}" method="POST" style="font-weight: 0.1em;">
         {% csrf_token %}
 
         <div class="row">

@@ -78,7 +78,7 @@
                 <form action="{% url 'capacities:capacities_set_person' %}" method="POST"><input type="hidden" name="person_id" value="{{person.id}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ person }}</button></form>
               {% endfor %}
               <hr style='padding:0;display: block;margin: 0px 0;content: " ";'>
-              <a href="/capacities/group_capacities" > <button class="dropdown-item"> Whole Group </button> </a>
+              <a href="{% url 'capacities:group_capacities' %}" > <button class="dropdown-item"> Whole Group </button> </a>
             </div>
           </div>
        </div>
@@ -87,7 +87,7 @@
    <br style ="line-height:10px;">
 
 
-  <form id ="capacity-table" action="/projects/edit3/{{pk}}/{{year}}" method="POST" style="font-weight: 0.1em;">
+  <form id ="capacity-table" action="{% url 'projects:edit3' pk=selected_person.pk year=selected_year %}" method="POST" style="font-weight: 0.1em;">
         {% csrf_token %}
         <table class="table table-sm" style="width: 100%;">
             <tr>
@@ -116,7 +116,7 @@
                     {% for column in per_month %}
                       <td> <input type="number" class="form-control" name="workload_jan" value="{{ column }}" min="0" id="" readonly> </td>
                     {% endfor %}
-                    <td> <a href="/users/edit2/{{selected_person.pk}}/{{selected_year}}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
+                    <td> <a href="{% url 'projects:edit2' pk=selected_person.pk %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
                   </tr>
                   {% endfor %}
             </tbody>
@@ -145,7 +145,7 @@
                         {% for column in load %}
                           <td> <input type="number" class="form-control" name="workload_jan" value="{{ column }}" min="0" id=""  readonly> </td>
                         {% endfor %}
-                        <td> <a href="/projects/edit3/{{project.pk}}/{{selected_year}}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
+                        <td> <a href="{% url 'projects:edit3' pk=selected_person.pk year=selected_year %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
                       </tr>
                       {% endfor %}
                       {% for label, values in stats_workload.items %}

@@ -47,7 +47,7 @@
   <div class="d-flex justify-content-between">
         <!-- Sorting-->
         <div>
-          <h3 class="font-weight-normal"> &nbsp; <b> Capacities of group members in {{ selected_year }}</b> </h3>
+          <h3 class="font-weight-normal"> &nbsp; <b> Capacities / Workload of group members in {{ selected_year }} [%]</b> </h3>
         </div>
         <div class="d-flex justify-content-between">
           <div>
@@ -61,7 +61,7 @@
                {% for _ in range %}
                    {% if forloop.counter < start %}<!-- Skip all years smaller then start -->
                    {% else %}
-                    <form action="/capacities/set_year" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
+                    <form action="{% url 'capacities:capacities_set_year' %}" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
                    {% endif %}
                {% endfor %}
                {% endwith %}
@@ -70,7 +70,7 @@
            </div>
          <div>&nbsp;</div>
          <div>
-            <a type="button" class="btn btn-secondary" href="/capacities/"> Individual workloads </a>
+            <a type="button" class="btn btn-secondary" href="{% url 'capacities:capacities' %}"> Individual workloads </a>
           </div>
        </div>
    </div>
@@ -78,7 +78,7 @@
    <br style ="line-height:10px;">
 
 
-  <form id ="capacity-table" action="/projects/edit3/{{pk}}/{{year}}" method="POST" style="font-weight: 0.1em;">
+  <form id ="capacity-table" style="font-weight: 0.1em;">
         {% csrf_token %}
         <table class="table table-sm" style="width: 100%;">
             <tr>
@@ -107,7 +107,7 @@
                     {% for column in per_month %}
                       <td> <input type="number" class="form-control" name="workload_jan" value="{{ column }}" min="0" id="" readonly> </td>
                     {% endfor %}
-                    <td> <a href="/users/edit2/{{selected_person.pk}}/{{selected_year}}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
+                    <td> <a href="{% url 'users:user_edit2' pk=person.pk year=selected_year %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
                   </tr>
                   {% endfor %}
             </tbody>

@@ -2,7 +2,7 @@
 {% extends "tabs.html" %}
 
 {% block tabs%}
-<a href="/users/edit1/{{person.pk}}"><label class="tablabel checked"> Personal information </label></a>
+<a href="{% 'users:user_edit1' pk=person.pk %}"><label class="tablabel checked"> Personal information </label></a>
 <a href="#createModelInstanceFirst" data-toggle="modal" style="color: inherit;text-decoration:none;"><label class="tablabel"> Work Time Model </label></a>
 
 {% endblock %}
@@ -14,7 +14,7 @@
   <h4 style="text-align: center;"> Specify new member of the group </h4>
   <br>
 
-  <form action="/users/create" method="POST" style="font-weight: 0.1em;">
+  <form action="{% url 'users:create' %}" method="POST" style="font-weight: 0.1em;">
         {% csrf_token %}
 
         <div class="row">

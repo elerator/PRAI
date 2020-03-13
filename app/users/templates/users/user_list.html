@@ -16,7 +16,7 @@
         <h3 class="font-weight-light"> Members of Production AI </h3>
       </div>
       <div>
-        <a type="button" class="btn btn-secondary" href="/users/create"> <i class="fa fa-plus-square mr-3 fa-fw"></i> Add member ... </a>
+        <a type="button" class="btn btn-secondary" href="{% url 'users:create' %}> <i class="fa fa-plus-square mr-3 fa-fw"></i> Add member ... </a>
       </div>
 
 </div>
@@ -40,8 +40,8 @@
                 {% for k, v in person.fields.items %}
                   <td>{{v}}</td>
                 {% endfor %}
-                <td><div><a href="/users/edit1/{{person.pk}}/"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a>
-                  <a href="/users/delete/{{person.pk}}/"><i class="fa fa-ban text-primary mr-3 fa-fw"></i></a></div>
+                <td><div><a href="{% url 'users:user_edit1' pk=person.pk %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a>
+                  <a href="{% url 'users:delete_user' pk=person.pk %}"><i class="fa fa-ban text-primary mr-3 fa-fw"></i></a></div>
                 </td>
 
                   <!--<td>{{project.pk}}</td>-->

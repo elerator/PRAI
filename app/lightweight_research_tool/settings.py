@@ -19,7 +19,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 ####### PRODCUTION SPECIFIC SETTINGS ##########
 #Necessary for deployment at sub root!!!!
 USE_X_FORWARDED_HOST = True
-FORCE_SCRIPT_NAME = '/prai_information_desk'
+FORCE_SCRIPT_NAME = "/"#'/prai_information_desk'
 LOGIN_URL = FORCE_SCRIPT_NAME+'/login_required'
 STATIC_SUFFIX = '/static/'
 STATIC_URL = FORCE_SCRIPT_NAME + STATIC_SUFFIX
@@ -28,8 +28,6 @@ STATIC_URL = FORCE_SCRIPT_NAME + STATIC_SUFFIX
 AUTH_USER_MODEL = 'users.Person'
 SECRET_KEY = '#3y9(ds5gklmkry$8(11ot1@$i3aj8bh+(%+yue1tvvzms=qlw'
 
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
