@@ -39,7 +39,7 @@ def login_view(request):
 
 def after_login(request):
     redirect_url = request.GET["next"]
-    auth_header = request.META['Authorization']
+    auth_header = request.META
     return HttpResponse(str(auth_header))
     #return HttpResponseRedirect(redirect_url)
 
