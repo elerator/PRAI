@@ -41,7 +41,7 @@ def after_login(request):
         user = Person.objects.filter(username__iexact=cookie_federation_cn)
         if user.exists():
             #User is member of production ai
-            django_login(request, user)
+            django_login(request, user[0])
             return HttpResponseRedirect(redirect_url)
 
     # authentication failed: Go back to login
