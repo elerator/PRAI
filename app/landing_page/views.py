@@ -11,6 +11,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth import logout as django_logout
 from urllib.parse import quote, unquote
 import os
+import requests
+
 #import basf_auth
 
 def landing_page(request):
@@ -27,6 +29,25 @@ def landing_page(request):
 
     return auth_result"""
 
+"""
+import requests
+import os
+
+
+TOKEN2INFO_URL = 'https://app.roqs.basf.net/auth/token2info'
+LOGIN_URL = 'https://app.roqs.basf.net/auth/login.html?redirect_uri={}'
+LOGOUT_URL = 'https://app.roqs.basf.net/auth/logout.html'
+
+
+def token2info(access_token):
+    r = requests.post(TOKEN2INFO_URL, data={'token': access_token}, verify=False, timeout=30)
+    assert r.status_code == 200
+    json = r.json()
+    return json if 'error' not in json else None
+
+
+"""
+
 def login_view(request):
     try:
         next = request.GET["next"]
@@ -40,7 +61,22 @@ def login_view(request):
 def after_login(request):
     redirect_url = request.GET["next"]
     auth_header = request.META
-    return HttpResponse(str(auth_header))
+    cookie_federation_access_token = request.COOKIES.get('basf_federation_access_token')
+    cookie_federation_cn = request.COOKIES.get('basf_federation_cn')
+    TOKEN2INFO_URL = 'https://app.roqs.basf.net/auth/token2info'
+    r = requests.post(TOKEN2INFO_URL, data={'token': cookie_federation_access_token}, verify=False, timeout=30)
+    assert r.status_code == 200
+    session_federation = r.json()
+    print(session_federation)
+
+
+    #session_federation = token2info(cookie_federation_access_token)
+    if not 'error' in session_federation and session_federation['user_id'] == cookie_federation_cn:
+        return HttpResponse('Authorization success')
+
+    return HttpResponse(str(session_federation)) # if session_federation --> User is authentificated
+
+    #return HttpResponse(str(auth_header))
     #return HttpResponseRedirect(redirect_url)
 
 def login(request):
