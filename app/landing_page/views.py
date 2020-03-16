@@ -47,11 +47,14 @@ def token2info(access_token):
 
 
 """
+token_to_info_url = 'https://app.roqs.basf.net/auth/token2info'
+post_basf_login_callback = "https://app.roqs.basf.net/auth/login.html?redirect_uri=https%3A%2F%2Fapp-dev.roqs.basf.net%2Fprai_information_desk%2Fafter_login"
+
 
 def login_view(request):
     try:
         next = request.GET["next"]
-        url = "https://app.roqs.basf.net/auth/login.html?redirect_uri=https%3A%2F%2Fapp-dev.roqs.basf.net%2Fprai_information_desk%2Fafter_login"
+        url = post_basf_login_callback
         url += "?next="
         url += quote(next, safe="")
         return HttpResponseRedirect(url)
@@ -63,17 +66,15 @@ def after_login(request):
     auth_header = request.META
     cookie_federation_access_token = request.COOKIES.get('basf_federation_access_token')
     cookie_federation_cn = request.COOKIES.get('basf_federation_cn')
-    TOKEN2INFO_URL = 'https://app.roqs.basf.net/auth/token2info'
-    r = requests.post(TOKEN2INFO_URL, data={'token': cookie_federation_access_token}, verify=False, timeout=30)
+    r = requests.post(token_to_info_url, data={'token': cookie_federation_access_token}, verify=False, timeout=30)
     assert r.status_code == 200
     session_federation = r.json()
-    print(session_federation)
-
 
     #session_federation = token2info(cookie_federation_access_token)
     if not 'error' in session_federation and session_federation['user_id'] == cookie_federation_cn:
-        return HttpResponse('Authorization success')
-
+        redirect_url = request.GET["next"]
+        return HttpResponseRedirect(redirect_url)
+        
     return HttpResponse(str(session_federation)) # if session_federation --> User is authentificated
 
     #return HttpResponse(str(auth_header))
