@@ -81,7 +81,7 @@
       </div>
 
       <div class="col-md-4 card-body d-flex flex-column">
-          <h3>Manage your progress</h3>
+          <h3>Watch your progress</h3>
           <p> Keep track of the progress of your yearly projects and share with your collegues what you've been working on.</p>
           {% if user.is_authenticated %}
           <a type="button" class="mt-auto btn btn-outline-primary" href={% url 'kanban:kanban' %}> Progress management &raquo;</a>
@@ -91,12 +91,12 @@
       </div>
 
       <div class="col-md-4 card-body d-flex flex-column">
-          <h3>Share your results</h3>
-          <p> You can share your results by making your project reports accessible to the team. </p>
+          <h3>Manage your Workload</h3>
+          <p> Schedule your capacities according to your work-time model, oversee how much time you spend on each projects and plan your workload in advance. </p>
           {% if user.is_authenticated %}
-          <a type="button" class="mt-auto btn btn-outline-primary" href="#"> Reports & knowledge transfer &raquo;</a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'capacities:capacities' %}" > Capacity management &raquo;</a>
           {% else %}
-          <a type="button"  class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next={% url 'kanban:kanban' %}" > Reports & knowledge transfer &raquo;</a>
+          <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'login_page' %}?next={% url 'capacities:capacities' %}" > Reports & knowledge transfer &raquo;</a>
           {% endif %}
       </div>
 
