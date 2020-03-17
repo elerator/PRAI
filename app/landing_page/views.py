@@ -19,6 +19,10 @@ post_basf_login_callback = "https://app.roqs.basf.net/auth/login.html?redirect_u
 
 def login_view(request):
     try:
+        #user = Person.objects.filter(username__iexact="gerstem5")#Bypass basf auth
+        #django_login(request, user[0])
+        #return HttpResponseRedirect(request.GET["next"])
+
         next = request.GET["next"]
         url = post_basf_login_callback
         url += "?next="

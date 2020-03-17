@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'kanban',
     'capacities',
     'users',
+    'exports',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

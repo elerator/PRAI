@@ -8,4 +8,8 @@ urlpatterns = [
     path('set_person',set_person, name='capacities_set_person'),
     path('burndown',burndown, name="burndown"),
     path('group_capacities', group_capacities, name='group_capacities'),
+    path('download_group_capacities', download_group_capacities, name = 'download_group_capacities'),
+    path('download_capacities', download_capacities, name = 'download_capacities'),
+
+
 ]

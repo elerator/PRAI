@@ -84,18 +84,12 @@
       </li>
     </ul>
 
-    <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0"><br> Reports </p>
+    <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0"><br> Exports </p>
     <ul class="nav flex-column bg-gray mb-0">
       <li class="nav-item">
-        <a href="#" class="nav-link text-dark font-italic">
-                  <i class="fa fa-plus-square mr-3 text-primary fa-fw"></i>
-                  Add new report
-              </a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link text-dark font-italic">
-                  <i class="fa fa-search-plus mr-3 text-primary fa-fw"></i>
-                  Explore reports
+        <a href={% url 'exports:exports' %} class="nav-link text-dark font-italic">
+                  <i class="fa fa-download mr-3 text-primary fa-fw"></i>
+                  Export and download
               </a>
       </li>
     </ul>
@@ -105,7 +99,7 @@
       <li class="nav-item">
         <a href={% url 'users:user_list' %} class="nav-link text-dark font-italic">
                   <i class="fa fa-user mr-3 text-primary fa-fw"></i>
-                  Users & settings
+                  Users and settings
               </a>
       </li>
     </ul>

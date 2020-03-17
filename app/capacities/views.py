@@ -14,7 +14,9 @@ import plotly.offline as opy
 import plotly.graph_objs as go
 
 from django.shortcuts import get_object_or_404
-
+import pandas as pd
+import calendar
+import io
 
 @login_required()
 def set_year(request):
@@ -90,13 +92,8 @@ def get_monthly_workload(yearly_workloads):
     monthly_workload = np.array(monthly_workload)
     return monthly_workload
 
-@login_required()
-def group_capacities(request):
-    context = {}
-    users = Person.objects.all().exclude(is_superuser=True)
-    year = request.session.get('capacities_year', datetime.datetime.now().year)
-    context["selected_year"] = year
 
+def get_occupancy_rates(users, year):
     capacity_per_month = {}
     for user in users:
         contributions = Contributor.objects.filter(person=user)#Get all contributions of a person
@@ -105,17 +102,84 @@ def group_capacities(request):
         percentages, target_euros_per_month, cumulative_target = get_monthly_duty(user, year)
         booking_ratio = get_key_figures(target_euros_per_month, monthly_workload)[3]
         capacity_per_month[user] = np.array(np.round(booking_ratio), dtype=np.int32)
-    context["person_workload"] = capacity_per_month
+    return capacity_per_month
+
+def get_cumulative_workload_group(users, year):
+    cumulative_workloads = {}
+    for person in users:
+        contributions = Contributor.objects.filter(person=person)#Get all contributions of a person
+        monthly_workload = get_monthly_workload(YearlyWorkload.objects.filter(contributor__in = contributions, year=year))#Get monthly workload for all projects the person contributed to
+        workload_across_projects = np.sum(monthly_workload,axis = 0)#per month across projects
+        cumulative_workloads[person] = np.zeros(12, dtype=np.int32) + np.array(np.cumsum(workload_across_projects)/1000,dtype=np.int32)
+    return cumulative_workloads
+
+@login_required()
+def download_group_capacities(request):
+    users = Person.objects.all().exclude(is_superuser=True)
+    year = request.session.get('capacities_year', datetime.datetime.now().year)
+    occupancy_rates = pd.DataFrame(get_occupancy_rates(users, year)).T
+    cumulative_workload_group = pd.DataFrame(get_cumulative_workload_group(users, year)).T
+
+    row_names_level2 = list(occupancy_rates.index)
+    row_names_level2.extend(list(cumulative_workload_group.index))
+    row_names_level1 = ["Occupancy rate" for x in range(len(occupancy_rates.index))]
+    row_names_level1.extend(["Cumulative workload" for x in range(len(occupancy_rates.index))])
+
+    data = np.vstack([occupancy_rates.values, cumulative_workload_group.values])
+    df = pd.DataFrame(data, index=[row_names_level1,row_names_level2], columns = [calendar.month_abbr[(x%12)+1] for x in range(12)])
+    output = io.BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='group_summary', index=True)
+    writer.save()
+    xlsx_data = output.getvalue()
+
+    response = HttpResponse(xlsx_data, content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = 'attachment; filename="capacities_grouplevel.xlsx"'
+    return response
+
+@login_required()
+def group_capacities(request):
+    context = {}
+    users = Person.objects.all().exclude(is_superuser=True)
+    year = request.session.get('capacities_year', datetime.datetime.now().year)
+    context["selected_year"] = year
+    context["person_workload"] = get_occupancy_rates(users, year)
+    context["person_cumulative_workloads"] = get_cumulative_workload_group(users, year)
     context["persons"] = users
     return render(request, 'capacities/capacities_group.html', context)
 
-@login_required()
-def capacities(request):
+def download_capacities(request):
+    context = get_capacities_context(request)
+    part_time = pd.DataFrame(context["part_time"]).T
+    stats_workload = pd.DataFrame(context["stats_workload"]).T
+    key_figures = pd.DataFrame(context["key_figures"]).T
+    project_rows = pd.DataFrame({str(x): y for x,y in context["project_rows"]}).T
+    df = pd.concat([part_time,project_rows,stats_workload,key_figures], axis=0)
+    row_names_level2 = [x.replace("<br>",";") for x in df.index]
+    row_names_level1 = []
+    row_names_level1.extend(["Work time" for x in range(len(part_time))])
+    row_names_level1.extend(["Projects" for x in range(len(project_rows))])
+    row_names_level1.extend(["Workload" for x in range(len(stats_workload))])
+    row_names_level1.extend(["Key figures" for x in range(len(key_figures))])
+
+    df = pd.DataFrame(df.values, index=[row_names_level1,row_names_level2], columns = [calendar.month_abbr[(x%12)+1] for x in range(12)])
+    output = io.BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='group_summary', index=True)
+    writer.save()
+    xlsx_data = output.getvalue()
+
+    response = HttpResponse(xlsx_data, content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = 'attachment; filename="capacities_'+str(context["selected_person"]).replace(" ","_")+"_"+str(context["selected_year"])+'.xlsx"'
+    return response
+
+
+def get_capacities_context(request):
     context = {}
     context["part_time"] = {}
     context["stats_workload"] = {}
     context["key_figures"] = {}
-    context["persons"] = list(Person.objects.all().exclude(is_superuser=True))
+    context["persons"] = list(Person.objects.filter(last_name__gt=''))#Person.objects.all().exclude(is_superuser=True)
 
     try:#Try retrieving values from the database ...
         year = request.session.get('capacities_year', datetime.datetime.now().year)
@@ -152,12 +216,16 @@ def capacities(request):
         monthly_workload = []
 
     context["project_rows"] = list(zip(projects,monthly_workload))
-    return render(request, 'capacities/capacities.html', context)
+    return context
+
+@login_required()
+def capacities(request):
+    return render(request, 'capacities/capacities.html', get_capacities_context(request))
 
 @login_required()
 def burndown(request):
     context = {}
-    context["persons"] = Person.objects.all().exclude(is_superuser=True)
+    context["persons"] = list(Person.objects.filter(last_name__gt=''))#Person.objects.all().exclude(is_superuser=True)
 
     try:#Try retrieving values from the database ...
         year = request.session.get('capacities_year', datetime.datetime.now().year)

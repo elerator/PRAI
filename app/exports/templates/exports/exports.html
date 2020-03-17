@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<style>
+    #align-text-bottom {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+
+  .dropdown-menu > form > button:hover {
+      background-color: lightgray;
+      background-image: none;
+      cursor: pointer;
+  }
+  .dropdown-menu > form {
+    margin-bottom: 0 !important;
+  }
+
+  input[readonly] {
+    background-color:transparent !important;;
+      border: 1 !important;
+  }
+
+</style>
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+{% block page_content %}
+
+
+<div class="container-fluid pt-3">
+  <div class="d-flex justify-content-between">
+        <!-- Sorting-->
+        <div>
+          <h3 class="font-weight-normal"> Available Exports & Downloads </h3>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>
+             <a class="btn btn-secondary dropdown-toggle" style="width: 80px !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               {{ selected_year }}
+             </a>
+             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+               {% now "Y" as current_year %}
+               {% with start=current_year|add:"-5" end=current_year|add:"+10"%}
+               {% with ''|center:end as range %}<!-- Get a range from 0 to end -->
+               <!-- Skip all years smaller then start ... -->
+               {% for _ in range %}
+                   {% if forloop.counter < start %}
+                   {% else %}
+                    <form action="{% url 'capacities:capacities_set_year' %}" method="POST"><input type="hidden" name="year" value="{{forloop.counter}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ forloop.counter }}</button></form>
+                   {% endif %}
+               {% endfor %}
+               {% endwith %}
+               {% endwith %}
+             </div>
+           </div>
+         <div>&nbsp;</div>
+         <div>
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ selected_person }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {% for person in persons %}
+                <form action="{% url 'capacities:capacities_set_person' %}" method="POST"><input type="hidden" name="person_id" value="{{person.id}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ person }}</button></form>
+              {% endfor %}
+            </div>
+          </div>
+       </div>
+   </div>
+
+   <br style ="line-height:20px;">
+
+    <table class="table">
+        <tr>
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col"> Bundle available for export </th>
+                    <th scope="col"> <i class="fa fa-cogs mr-3 fa-fw"></i> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td>  &nbsp; <b> Capacities and projects for {{ selected_person }} in {{ selected_year }}</b> (Change year and team member above) </td>
+                  <td><div>
+                    <a href="{% url 'capacities:download_capacities' %}">.xlsx <i class="fa fa-download mr-3 text-primary fa-fw"></i></a></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td> &nbsp; <b> Group overview including occupancy rates and cumulative workload for {{ selected_year }}</b> (Change year above) </td>
+                  <td><div>
+                    <a href="{% url 'capacities:download_group_capacities' %}">.xlsx <i class="fa fa-download mr-3 text-primary fa-fw"></i></a></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td> &nbsp; <b> List of projects including all related data </b> </td>
+                  <td><div>
+                    <a>.xlsx <i class="fa fa-download mr-3 text-primary fa-fw"></i></a></div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>  &nbsp; <b> Complete database as SQLite file </b> </td>
+                  <td><div>
+                    <a href="{% url 'exports:download_database' %}">.sqlite3 <i class="fa fa-download mr-3 text-primary fa-fw"></i></a></div>
+                  </td>
+                </tr>
+
+
+            </tbody>
+    </table>
+</div>
+
+{% endblock %}

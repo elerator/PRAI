@@ -26,4 +26,5 @@ urlpatterns = [
     path('kanban/', include("kanban.urls")),
     path('capacities/', include("capacities.urls")),
     path('users/', include("users.urls")),
+    path('exports/', include("exports.urls")),
 ] + static(settings.STATIC_SUFFIX, document_root=settings.STATIC_ROOT)#Necessary for deployment at sub root!!!!

@@ -17,7 +17,7 @@ class UserList(ListView):
 
     def get_queryset(self):
         try:
-            query_set = Person.objects.all()
+            query_set = Person.objects.filter(last_name__gt='')#Exclude users without name i.e. origial superusers
             list(query_set)#evaluate and throw exception at this point if key for sorting is missing
             return query_set
         except Exception as e:
@@ -30,7 +30,6 @@ class UserList(ListView):
         """
         context = super(UserList, self).get_context_data(**kwargs)
         persons = self.get_queryset()#model.objects.all()
-        persons = persons.filter(is_superuser=False)#remove superuser from list
 
         context['persons'] = serializers.serialize( "python", persons, fields = ["first_name","last_name"])#
         context["columns"] = ["First Name","Name"]

@@ -47,8 +47,9 @@
   <div class="d-flex justify-content-between">
         <!-- Sorting-->
         <div>
-          <h3 class="font-weight-normal"> &nbsp; <b> Workload of group members across projects in {{ selected_year }} [%]</b> </h3>
+          <h3 class="font-weight-normal"> &nbsp; <b> Workload of group members across projects in {{ selected_year }} </b> <a href='{% url 'capacities:download_group_capacities' %}'><i class="fa fa-download mr-3 text-primary fa-fw"></i></a></h3>
         </div>
+
         <div class="d-flex justify-content-between">
           <div>
              <a class="btn btn-secondary dropdown-toggle" style="width: 80px !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -75,8 +76,11 @@
        </div>
    </div>
 
-   <br style ="line-height:10px;">
+   <br style ="line-height:20px;">
 
+   <div>
+     <h4 class="font-weight-normal"> &nbsp; <b> Occupancy rate [%] </b> </h4>
+   </div>
 
   <form id ="capacity-table" style="font-weight: 0.1em;">
         {% csrf_token %}
@@ -113,5 +117,47 @@
             </tbody>
         </table>
   </form>
+
+
+
+<div>
+  <h4 class="font-weight-normal"> &nbsp; <b> Cumulative Workload [k€] </b> </h3>
+</div>
+
+<form id ="capacity-table" style="font-weight: 0.1em;">
+     {% csrf_token %}
+     <table class="table table-sm" style="width: 100%;">
+         <tr>
+           <thead class="thead-light">
+             <tr>
+               <th>  </th>
+               <th> Jan </th>
+               <th> Feb </th>
+               <th> Mar </th>
+               <th> Apr </th>
+               <th> May </th>
+               <th> Jun </th>
+               <th> Jul </th>
+               <th> Aug </th>
+               <th> Sep </th>
+               <th> Oct </th>
+               <th> Nov </th>
+               <th> Dec </th>
+               <th><i class="fa fa-cogs mr-3 fa-fw"></i></th>
+             </tr>
+         </thead>
+         <tbody>
+               {% for person, per_month in person_cumulative_workloads.items %}
+               <tr>
+                 <td> {{ person|safe }} </td>
+                 {% for column in per_month %}
+                   <td> <input type="number" class="form-control" name="workload_jan" value="{{ column }}" min="0" id="" readonly> </td>
+                 {% endfor %}
+                 <td> <a href="{% url 'users:user_edit2' pk=person.pk year=selected_year %}"><i class="fa fa-edit text-primary mr-3 fa-fw"></i></a></td><!-- TODO -->
+               </tr>
+               {% endfor %}
+         </tbody>
+     </table>
+</form>
 </div>
 {% endblock %}
