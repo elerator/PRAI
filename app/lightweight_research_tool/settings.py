@@ -18,9 +18,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 ####### PRODCUTION SPECIFIC SETTINGS ##########
 #Necessary for deployment at sub root!!!!
-#USE_X_FORWARDED_HOST = True
-#FORCE_SCRIPT_NAME = '/prai_information_desk'
-FORCE_SCRIPT_NAME = ""
+USE_X_FORWARDED_HOST = True
+FORCE_SCRIPT_NAME = '/prai_information_desk'
+#FORCE_SCRIPT_NAME = ""
 LOGIN_URL = FORCE_SCRIPT_NAME+'/login_required'
 STATIC_SUFFIX = '/static/'
 STATIC_URL = FORCE_SCRIPT_NAME + STATIC_SUFFIX
