@@ -6,6 +6,13 @@ ENV https_proxy https://clientproxy.basf.net:8080
 ADD ./app ./app
 ADD ./database ./database1
 RUN ls -la
+RUN cd dev
+RUN ls -la
+RUN cd ..
+RUN cd home
+RUN ls -la
+RUN cd ..
+
 RUN chmod a+rw database1 database1/*
 
 RUN apt-get update && \
