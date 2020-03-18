@@ -194,7 +194,8 @@ def get_capacities_context(request):
         projects = [load.contributor.research_project for load in yearly_workloads]
 
         if len(projects) == 0:
-            return render(request, 'capacities/no_projects_warning.html', context)
+            context["no_projects"] = True
+            context
 
         monthly_workload = get_monthly_workload(yearly_workloads)
 
@@ -212,6 +213,7 @@ def get_capacities_context(request):
         context["key_figures"]["Burndown [%]"] = np.array(np.round(burndown),dtype=np.int32)
 
     except Exception as e:
+        print(e)
         projects = [[]]
         monthly_workload = []
 
@@ -220,7 +222,12 @@ def get_capacities_context(request):
 
 @login_required()
 def capacities(request):
-    return render(request, 'capacities/capacities.html', get_capacities_context(request))
+    context = get_capacities_context(request)
+    if "no_projects" in context:
+        return render(request, 'capacities/no_projects_warning.html', context)
+    else:
+        return render(request, 'capacities/capacities.html', context)
+
 
 @login_required()
 def burndown(request):

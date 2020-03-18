@@ -76,7 +76,7 @@
         <tr>
             <thead class="thead-light">
                 <tr>
-                    <th scope="col"> Bundle available for export </th>
+                    <th scope="col"> Bundles available for export </th>
                     <th scope="col"> <i class="fa fa-cogs mr-3 fa-fw"></i> </th>
                 </tr>
             </thead>
@@ -99,6 +99,12 @@
                     <a>.xlsx <i class="fa fa-download mr-3 text-primary fa-fw"></i></a></div>
                   </td>
                 </tr>
+                <tr>
+                  <td> &nbsp; <b> Overview of the work time models of all group members in {{ selected_year }} </b> (Change year above) </td>
+                  <td><div>
+                    <a href="{% url 'exports:download_worktimes' year=selected_year %}">.xlsx <i class="fa fa-download mr-3 text-primary fa-fw"></i></a></div>
+                  </td>
+                </tr>
 
                 <tr>
                   <td>  &nbsp; <b> Complete database as SQLite file </b> </td>
@@ -106,6 +112,8 @@
                     <a href="{% url 'exports:download_database' %}">.sqlite3 <i class="fa fa-download mr-3 text-primary fa-fw"></i></a></div>
                   </td>
                 </tr>
+
+
 
 
             </tbody>

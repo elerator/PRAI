@@ -77,9 +77,8 @@
               {% for person in persons %}
                 <form action="{% url 'capacities:capacities_set_person' %}" method="POST"><input type="hidden" name="person_id" value="{{person.id}}">{% csrf_token %}<button type="submit" class="dropdown-item">{{ person }}</button></form>
               {% endfor %}
-              <hr style='padding:0;display: block;margin: 0px 0;content: " ";'>
-              <a href="{% url 'capacities:group_capacities' %}" > <button class="dropdown-item"> Whole Group </button> </a>
             </div>
+            <a type="button" class="btn btn-secondary" href="{% url 'capacities:group_capacities' %}"> Group overview </a>
           </div>
        </div>
    </div>
