@@ -37,7 +37,7 @@ def after_login(request):
     cookie_federation_access_token = request.COOKIES.get('basf_federation_access_token')
     cookie_federation_cn = request.COOKIES.get('basf_federation_cn')
     r = requests.post(token_to_info_url, data={'token': cookie_federation_access_token}, verify=False, timeout=30)
-    assert r.status_code == 200
+    #assert r.status_code == 200
     session_federation = r.json()
 
     if not 'error' in session_federation and session_federation['user_id'] == cookie_federation_cn:

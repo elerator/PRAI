@@ -28,7 +28,7 @@
             <button type="submit" class="btn btn-primary">save updates</button>
     </form>
     {% if worktimes %}
-    <form action="/users/delete_work_time/{{worktimes.pk}}" method="POST" style="display:inline;">{% csrf_token %}<button type="submit" class="btn btn-primary">reset</button></form>
+    <form action="{% url 'users:delete_work_time' pk=worktimes.pk %}" method="POST" style="display:inline;">{% csrf_token %}<button type="submit" class="btn btn-primary">reset</button></form>
     {% endif %}
               </div>
 </div>
