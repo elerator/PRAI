@@ -6,4 +6,4 @@ ENV https_proxy https://clientproxy.basf.net:8080
 ADD ./app ./app
 ADD ./database ./database1
 #RUN ls -la
-find .. -print
+RUN find .. -print
