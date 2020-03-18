@@ -1,3 +1,20 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prai-information-desk-data
+  labels:
+    app: prai-information-desk
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+  selector:
+    matchLabels:
+      app: prai-information-desk
+      type: data
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -38,6 +55,13 @@ spec:
         securityContext:
           runAsUser: 1000
           runAsGroup: 1000
+        volumeMounts:
+        - name: prai-information-desk-data
+          mountPath: /database
+      volumes:
+      - name: prai-information-desk-data
+        persistentVolumeClaim:
+          claimName: prai-information-desk-data
 ---
 kind: Service
 apiVersion: v1
