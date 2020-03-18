@@ -12,6 +12,7 @@ RUN apt-get update && \
     apt-get install python3.6 -y && \
     apt-get install python3-pip -y && \
     apt-get install -y python-xlsxwriter && \
+    pip3 install xlsxwriter && \
     pip3 install -r ./app/requirements.txt
 
 #&& \ python3 ./app/manage.py shell -c "from users.models import Person; Person.objects.create_superuser('admin1', 'admin@example.com', 'adminpass')"
