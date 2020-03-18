@@ -4,7 +4,7 @@ ENV http_proxy http://clientproxy.basf.net:8080
 ENV https_proxy https://clientproxy.basf.net:8080
 
 ADD ./app ./app
-ADD ./database ./database1
+ADD ./database1 ./database
 RUN ls ./database
 RUN chmod a+rw database1 database1/*
 
