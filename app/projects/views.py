@@ -212,11 +212,13 @@ class ProjectEdit(UpdateView):
 class ProjectCreate(ProjectEdit):
     template_name = 'projects/create.html'
     form_class = GeneralProjectInformation
+    def redirect(self, pk = None):
+        return HttpResponseRedirect(reverse_lazy('projects:edit2', kwargs={'pk': pk}))
+
 
 class ProjectEditFirst(ProjectEdit):
     template_name = 'projects/edit1.html'
     form_class = GeneralProjectInformation
-
 
 class ProjectEditSecond(ProjectEdit):
     template_name = 'projects/edit2.html'

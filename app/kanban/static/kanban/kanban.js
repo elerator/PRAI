@@ -1,3 +1,5 @@
+let project_subroute = "/prai_information_desk";
+
 function drag(ev) {
   ev.dataTransfer.setData("dragged_element_id", ev.target.id);
 }
@@ -8,7 +10,7 @@ function drop(ev) {
   var par = $(event.target).parent();//parent of dropzone (event.target)
   var project_stage = par.parent().parent()[0].attributes["id"].value;
 
-  $.post('/kanban/move_project_to', {'project_stage': project_stage, "research_project_pk":dragged_element_id, 'csrfmiddlewaretoken': csrftoken});
+  $.post(project_subroute+'/kanban/move_project_to', {'project_stage': project_stage, "research_project_pk":dragged_element_id, 'csrfmiddlewaretoken': csrftoken});
   par.after($("#" + dragged_element_id));
   clearDrop(ev);//for styling
 }
