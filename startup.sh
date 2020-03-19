@@ -8,5 +8,6 @@ echo Listing contents of folder database
 cd database
 ls -la
 cd ..
+python3 ./app/test_loading_databse.py
 python3 ./app/manage.py runserver 0.0.0.0:5000
 Server exited
