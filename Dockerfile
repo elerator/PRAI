@@ -5,7 +5,7 @@ ENV https_proxy https://clientproxy.basf.net:8080
 
 ADD ./app ./app
 ADD ./database ./database1
-ADD start.sh /
+ADD startup.sh /
 #RUN ls -la
 
 RUN chmod a+rw database1 database1/*
@@ -22,5 +22,5 @@ RUN apt-get update && \
 
 EXPOSE 5000
 
-CMD ["/start.sh"]
+CMD ["/startup.sh"]
 #CMD ["python3", "./app/manage.py", "runserver", "0.0.0.0:5000"]
