@@ -21,7 +21,6 @@ RUN apt-get update && \
 EXPOSE 5000
 
 RUN mkdir database2
-RUN chmod a+rw database2 database2/*
 
 ADD startup.sh /
 RUN chmod +x /startup.sh
