@@ -20,6 +20,8 @@ RUN apt-get update && \
 
 EXPOSE 5000
 
+RUN mkdir database2
+
 ADD startup.sh /
 RUN chmod +x /startup.sh
 CMD ["/startup.sh"]
