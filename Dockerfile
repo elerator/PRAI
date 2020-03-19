@@ -9,7 +9,7 @@ ADD startup.sh /
 #RUN ls -la
 
 RUN chmod a+rw database1 database1/*
-RUN chmod +x /start.sh
+RUN chmod +x /startup.sh
 
 RUN apt-get update && \
     apt-get install python3.6 -y && \
