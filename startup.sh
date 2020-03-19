@@ -8,6 +8,7 @@ echo Listing contents of folder database
 cd database
 ls -la
 cd ..
+mkdir database2
+ln ./database/db.sqlite3 ./database2/db.sqlite3
 python3 ./app/test_loading_database.py
 python3 ./app/manage.py runserver 0.0.0.0:5000
-Server exited
