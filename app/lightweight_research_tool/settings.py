@@ -106,7 +106,7 @@ WSGI_APPLICATION = 'lightweight_research_tool.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': "./database/db.sqlite3",#os.path.join(os.path.join(os.path.split(BASE_DIR)[0],"database1"), 'db.sqlite3')
+        'NAME': "/database/db.sqlite3",#os.path.join(os.path.join(os.path.split(BASE_DIR)[0],"database1"), 'db.sqlite3')
     }
 }
 
