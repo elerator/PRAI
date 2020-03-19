@@ -5,9 +5,11 @@ ENV https_proxy https://clientproxy.basf.net:8080
 
 ADD ./app ./app
 ADD ./database ./database1
-RUN ls -la
+ADD start.sh /
+#RUN ls -la
 
 RUN chmod a+rw database1 database1/*
+RUN chmod +x /start.sh
 
 RUN apt-get update && \
     apt-get install python3.6 -y && \
@@ -20,4 +22,5 @@ RUN apt-get update && \
 
 EXPOSE 5000
 
-CMD ["python3", "./app/manage.py", "runserver", "0.0.0.0:5000"]
+CMD ["/start.sh"]
+#CMD ["python3", "./app/manage.py", "runserver", "0.0.0.0:5000"]
