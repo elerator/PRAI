@@ -7,7 +7,7 @@ ADD ./app ./app
 #ADD ./database ./database1
 #ADD ./database ./database
 RUN ls -la
-RUN ls database
+RUN ls /database
 
 #RUN chmod a+rw database1 database1/*
 
