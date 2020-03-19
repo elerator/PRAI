@@ -9,8 +9,8 @@ cd database
 ls -la
 cd ..
 #ln -s ./database/db.sqlite3 ./database2/db.sqlite3
-
-cp ./database/db.sqlite3 ./database2/db.sqlite3
+echo copy db.sqlite3
+cp ./database1/db.sqlite3 ./database2/db.sqlite3
 cd database2
 ls -la
 cd ..
