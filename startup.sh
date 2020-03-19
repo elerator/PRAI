@@ -6,7 +6,7 @@ echo Listing root ...
 ls -la
 echo Listing contents of folder database
 cd database
-ls ls -la
+ls -la
 cd ..
-sudo python3 ./app/manage.py runserver 0.0.0.0:5000
+python3 ./app/manage.py runserver 0.0.0.0:5000
 Server exited
