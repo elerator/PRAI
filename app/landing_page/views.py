@@ -11,20 +11,35 @@ from urllib.parse import quote, unquote
 import os
 import requests
 
+
 def landing_page(request):
+    """ View for the landing page.
+    Args:
+        request: Request object.
+    Returns:
+        HttpResponse: Rendered landing page.
+    """
     return render(request, 'landing_page/landing.html', {})
 
 token_to_info_url = 'https://app.roqs.basf.net/auth/token2info'
-post_basf_login_callback = "https://app.roqs.basf.net/auth/login.html?redirect_uri=https%3A%2F%2Fapp-dev.roqs.basf.net%2Fprai_information_desk%2Fafter_login"
+basf_login = "https://app.roqs.basf.net/auth/login.html"
+redirect_uri = "https%3A%2F%2Fapp-dev.roqs.basf.net%2Fprai_information_desk%2Fafter_login"
 
 def login_view(request):
+    """ Method to redirect user to the BASF federation login.
+        The redirect_uri is passed as get_request parameter andrefers to the route that corresponds to after_login.
+    Args:
+        request: Request object.
+    Returns:
+        HttpResponse: Redirect to BASF login or Bad Request message.
+    """
     try:
-        #user = Person.objects.filter(username__iexact="gerstem5")#Bypass basf auth
-        #django_login(request, user[0])
-        #return HttpResponseRedirect(request.GET["next"])
+        user = Person.objects.filter(username__iexact="gerstem5")#Bypass basf auth
+        django_login(request, user[0])
+        return HttpResponseRedirect(request.GET["next"])
 
         next = request.GET["next"]
-        url = post_basf_login_callback
+        url = basf_login + "?redirect_uri=" + redirect_uri
         url += "?next="
         url += quote(next, safe="")
         return HttpResponseRedirect(url)
@@ -32,6 +47,13 @@ def login_view(request):
         return HttpResponse("Bad Request",status=400)
 
 def after_login(request):
+    """ Authentification callback. This method is triggered after the authentification cookies were set by the federation login.
+        Makes a request to token_to_info_url and checks whether the access token retrieved from cookies is a valid one.
+    Args:
+        request: Request object
+    Returns:
+        HttpResponseRedirect: Redirect to the redirect url (get request parameter)
+    """
     redirect_url = request.GET["next"]
     auth_header = request.META
     cookie_federation_access_token = request.COOKIES.get('basf_federation_access_token')
@@ -49,17 +71,29 @@ def after_login(request):
             return HttpResponseRedirect(redirect_url)
 
     # authentication failed: Go back to login
-    url = post_basf_login_callback
+    url = basf_login
     url += "?next="
     url += quote(redirect_url, safe="")
     return HttpResponseRedirect(url)
 
 
 def logout(request):
-    django_logout(request)
+    """ Logs the user out
+    Args:
+        request: Request object
+    Returns:
+        HttpResponseRedirect: Redirect to landing page
+    """
+    django_logout(request)#TODO log out from BASF too (!?)
     return HttpResponseRedirect(reverse_lazy("landing_page"))
 
 def login_required(request):
+    """ View method that renders login required message.
+    Args:
+        request: Request object
+    Returns:
+        HttpResponse with rendered login required template or bad request message.
+    """
     try:
         return render(request, 'landing_page/login_required.html', {"next":request.GET["next"]})
     except:

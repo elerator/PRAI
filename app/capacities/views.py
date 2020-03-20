@@ -20,10 +20,11 @@ import io
 
 @login_required()
 def set_year(request):
-    """ Adds the field search_in to the session object
+    """ Adds the year to the session.
     Args:
         request: The request object.
-        sorting: The row in the database the list should be sorted by
+    Returns:
+        HttpResponseRedirect to the previous page.
     """
     if request.method == 'POST':
         request.session["capacities_year"] = request.POST.get("year")
@@ -33,10 +34,11 @@ def set_year(request):
 
 @login_required()
 def set_person(request):
-    """ Adds the field search_in to the session object
+    """ Saves the selected person in the session object.
     Args:
         request: The request object.
-        sorting: The row in the database the list should be sorted by
+    Returns:
+        HttpResponseRedirect to the previous page.
     """
     if request.method == 'POST':
         request.session["capacities_person_id"] = request.POST.get("person_id")
@@ -45,6 +47,17 @@ def set_person(request):
         return HttpResponse(status=400)
 
 def get_monthly_duty(person, year, yearly_duty=250000/12):
+    """ Computes monthly worktime duties along with related measures of an employee.
+        Retrieves the WorkTimeModel from the database as a basis.
+    Args:
+        person: Person Object
+        year: Year the monthly duties should be computed for.
+        yearly_duty: The yearly budget goal.
+    Returns:
+        Array of percentages for each month (The worktime model)
+        target_euros_per_month: Monthly duties measured in euros.
+        cumulative_target: Cumulative target_euros_per_month.
+    """
     keys = ["part_time_jan","part_time_feb","part_time_mar","part_time_apr","part_time_may","part_time_jun",
             "part_time_jul","part_time_aug","part_time_sep","part_time_oct","part_time_nov","part_time_dec"]
     part_time = WorkTimeModel.objects.filter(year = year, person = person)
@@ -65,6 +78,18 @@ def get_monthly_duty(person, year, yearly_duty=250000/12):
     return np.array(percentages), target_euros_per_month, cumulative_target
 
 def get_key_figures(target_euros_per_month, monthly_workload):
+    """ Computes key figures that indicate in how far each employee achieves the year goal.
+    Args:
+        target_euros_per_month: A list of monthly target values specifying the duties in euros.
+        monthly_workload: The workload for each month for all projects (2d)
+    Returns:
+        workload_across_projects: Monthly workload in euros acroos projects
+        cumulative_workload: Cumulative workload across projects
+        surplus_current_month: Surplus/Shortage of work for each month in euros.
+        booking_ratio: Occupancy rate for each month
+        cumulative_booking_ratio_year_goal: Cumulative booking ratio measured at the year goal.
+        burndown: Burndown of work duties.
+    """
     workload_across_projects = np.sum(monthly_workload,axis = 0)#per month across projects
     booking_ratio = (workload_across_projects/target_euros_per_month)*100
     surplus_current_month = workload_across_projects-target_euros_per_month
@@ -79,6 +104,12 @@ def get_key_figures(target_euros_per_month, monthly_workload):
     return workload_across_projects, cumulative_workload, surplus_current_month, booking_ratio, cumulative_booking_ratio_year_goal, burndown
 
 def get_monthly_workload(yearly_workloads):
+    """ Computes monthly workload for each YearlyWorkload in yearly_workloads.
+    Args:
+        yearly_workload: Iterable that contains numerous YearlyWorkload instances.
+    Returns:
+        monthly_workload: Monthly workload for each month and project (2d)
+    """
     # retrieve yearly workload for these projects
     keys = ["workload_jan","workload_feb","workload_mar","workload_apr","workload_may","workload_jun","workload_jul",
             "workload_aug","workload_sep","workload_oct","workload_nov","workload_dec"]
@@ -94,6 +125,13 @@ def get_monthly_workload(yearly_workloads):
 
 
 def get_occupancy_rates(users, year):
+    """ Gets occupancy rates for users for a specific year.
+    Args:
+        users: An iterable of users (e.g. query_set).
+        year: The year the measure should be computed for.
+    Returns:
+        capacity_per_month: The monthly capacity
+    """
     capacity_per_month = {}
     for user in users:
         contributions = Contributor.objects.filter(person=user)#Get all contributions of a person
@@ -105,6 +143,13 @@ def get_occupancy_rates(users, year):
     return capacity_per_month
 
 def get_cumulative_workload_group(users, year):
+    """ Retrieves cumulative workload for the specified users and year
+    Args:
+        users: Iterable containing several Person objects
+        year: The year the cumulative workload is computed for
+    Returns:
+        cumulative_workloads: Cumulative workload for all users (2d)
+    """
     cumulative_workloads = {}
     for person in users:
         contributions = Contributor.objects.filter(person=person)#Get all contributions of a person
@@ -115,6 +160,12 @@ def get_cumulative_workload_group(users, year):
 
 @login_required()
 def download_group_capacities(request):
+    """ Retrieves group capacities and converts them to a .xlsx file that is served for download
+    Args:
+        Request: Request object
+    Returns:
+        HttpResponse (with content_type for .xlsx files) that contains the data as .xlsx
+    """
     users = Person.objects.all().exclude(is_superuser=True)
     year = request.session.get('capacities_year', datetime.datetime.now().year)
     occupancy_rates = pd.DataFrame(get_occupancy_rates(users, year)).T
@@ -122,8 +173,8 @@ def download_group_capacities(request):
 
     row_names_level2 = list(occupancy_rates.index)
     row_names_level2.extend(list(cumulative_workload_group.index))
-    row_names_level1 = ["Occupancy rate" for x in range(len(occupancy_rates.index))]
-    row_names_level1.extend(["Cumulative workload" for x in range(len(occupancy_rates.index))])
+    row_names_level1 = ["Occupancy rate [%]" for x in range(len(occupancy_rates.index))]
+    row_names_level1.extend(["Cumulative workload [k€]" for x in range(len(occupancy_rates.index))])
 
     data = np.vstack([occupancy_rates.values, cumulative_workload_group.values])
     df = pd.DataFrame(data, index=[row_names_level1,row_names_level2], columns = [calendar.month_abbr[(x%12)+1] for x in range(12)])
@@ -139,6 +190,12 @@ def download_group_capacities(request):
 
 @login_required()
 def group_capacities(request):
+    """ View for the group capacities
+    Args:
+        request: The request object.
+    Returns:
+        HttpResponse of the group capacities.
+    """
     context = {}
     users = Person.objects.all().exclude(is_superuser=True)
     year = request.session.get('capacities_year', datetime.datetime.now().year)
@@ -150,6 +207,12 @@ def group_capacities(request):
 
 @login_required()
 def download_capacities(request):
+    """ Converts capacity table to a .xlsx file that is served for download
+    Args:
+        Request: Request object
+    Returns:
+        HttpResponse (with content_type for .xlsx files) that contains the data as .xlsx
+    """
     context = get_capacities_context(request)
     part_time = pd.DataFrame(context["part_time"]).T
     stats_workload = pd.DataFrame(context["stats_workload"]).T
@@ -176,6 +239,12 @@ def download_capacities(request):
 
 
 def get_capacities_context(request):
+    """ Asssembles the capacity table and accumulates the respective data in a response object
+    Args:
+        request: The request object.
+    Returns:
+        context: A dictionary that contains the capacity table.
+    """
     context = {}
     context["part_time"] = {}
     context["stats_workload"] = {}
@@ -223,6 +292,12 @@ def get_capacities_context(request):
 
 @login_required()
 def capacities(request):
+    """ View of the capacity table
+    Args:
+        request: The request object
+    Returns:
+        HttpResponse with the rendered table.
+    """
     context = get_capacities_context(request)
     if "no_projects" in context:
         return render(request, 'capacities/no_projects_warning.html', context)
@@ -232,6 +307,12 @@ def capacities(request):
 
 @login_required()
 def burndown(request):
+    """ View for the burndown graph
+    Args:
+        request: Request object
+    Returns:
+        HttpResponse with the view for the burndown graph. The graph itself is a plotly plot (JavaScript).
+    """
     context = {}
     context["persons"] = list(Person.objects.filter(last_name__gt=''))#Person.objects.all().exclude(is_superuser=True)
 
@@ -269,6 +350,5 @@ def burndown(request):
     except Exception as e:
         print(e)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
 
     return render(request, 'capacities/burndown.html', context)
