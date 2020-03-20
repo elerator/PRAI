@@ -148,6 +148,7 @@ def group_capacities(request):
     context["persons"] = users
     return render(request, 'capacities/capacities_group.html', context)
 
+@login_required()
 def download_capacities(request):
     context = get_capacities_context(request)
     part_time = pd.DataFrame(context["part_time"]).T

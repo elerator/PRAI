@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from users.models import *
+from projects.models import *
 import datetime
 from lightweight_research_tool.settings import *
 from pathlib import Path
@@ -40,6 +41,27 @@ def download_worktimes(request, year):
     response['Content-Disposition'] = 'attachment; filename="work_time_models_'+str(year)+'.xlsx"'
     return response
 
+def download_projects(request):
+    projects = ResearchProject.objects.all()
+    partners = [[c for c in p.contributors.all()] for p in projects]
+    projects = [[p.title, p.project_partner, p.goal, p.milestones, p.short_description,p.plant_name,
+                p.funding,p.tools,p.budget,p.funding_type,p.project_leader,p.report,p.start,p.end,
+                p.cost_center,p.project_stage] for p in projects]
+    partners_df = pd.DataFrame(partners)
+    partners_df = pd.DataFrame(partners, columns = ["Partner "+ str(i) for i in range(partners_df.values.shape[1])])
+    headers = ["Project title", "Project partner", "Project goals", "milestones", "Short description",
+                "Plant name", "funding", "Tools", "Project budget", "Type of funding", "Project leader", "Link to report",
+                "Formal start time", "Formal end time", "Cost center", "Current stage"]
+    df = pd.DataFrame(projects, columns = headers)
+    df =  pd.concat([df, partners_df], axis=1, sort=False)
+    output = io.BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='work_time_models', index=False)
+    writer.save()
+    xlsx_data = output.getvalue()
+    response = HttpResponse(xlsx_data, content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = 'attachment; filename="project_list.xlsx"'
+    return response
 
 def download_database(request):
     with open(os.path.join(Path(BASE_DIR).parent,"database/db.sqlite3"), "rb") as f:

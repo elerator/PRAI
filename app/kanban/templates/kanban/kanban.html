@@ -96,12 +96,12 @@
                               <div class="card-body p-2">
                                   <div class="card-title">
                                       <img src="" class="rounded-circle float-right">
-                                      <a href="" class="lead font-weight-light"> {{research_project.title}} </a>
+                                      <a href="{% url 'projects:edit1' pk=research_project.pk %}" class="lead font-weight-light"> {{research_project.title}} </a>
                                   </div>
                                   <p>
                                       {{research_project.short_description}}
                                   </p>
-                                  <button class="btn btn-primary btn-sm">more &raquo;</button>
+                                  <a href="{% url 'projects:edit1' pk=research_project.pk %}" class="btn btn-primary btn-sm">more &raquo;</a>
                               </div>
                           </div>
                           <!-- Every item has a dropzone such that other items can be dropped after each item: -->
@@ -135,12 +135,12 @@
                               <div class="card-body p-2">
                                   <div class="card-title">
                                       <img src="" class="rounded-circle float-right">
-                                      <a href="" class="lead font-weight-light"> {{research_project.title}} </a>
+                                      <a href="{% url 'projects:edit1' pk=research_project.pk %}" class="lead font-weight-light"> {{research_project.title}} </a>
                                   </div>
                                   <p>
                                       {{research_project.short_description}}
                                   </p>
-                                  <button class="btn btn-primary btn-sm">more &raquo;</button>
+                                  <a href="{% url 'projects:edit1' pk=research_project.pk %}" class="btn btn-primary btn-sm">more &raquo;</a>
                               </div>
                           </div>
                           <!-- Every item has a dropzone such that other items can be dropped after each item: -->
@@ -159,7 +159,7 @@
         <div class="col-sm-6 col-md-4 col-xl-3">
             <div class="card bg-light">
                 <div id="modeling_complete" class="card-body">
-                    <h6 class="card-title text-uppercase text-truncate py-2"> Modeling complete </h6>
+                    <h6 class="card-title text-uppercase text-truncate py-2"> Implementation complete </h6>
                     <div class="items border border-light">
                       <!-- Dropzone of column -->
                       <div>
@@ -174,12 +174,12 @@
                               <div class="card-body p-2">
                                   <div class="card-title">
                                       <img src="" class="rounded-circle float-right">
-                                      <a href="" class="lead font-weight-light"> {{research_project.title}} </a>
+                                      <a href="{% url 'projects:edit1' pk=research_project.pk %}" class="lead font-weight-light"> {{research_project.title}} </a>
                                   </div>
                                   <p>
                                       {{research_project.short_description}}
                                   </p>
-                                  <button class="btn btn-primary btn-sm">more &raquo;</button>
+                                  <a href="{% url 'projects:edit1' pk=research_project.pk %}" class="btn btn-primary btn-sm">more &raquo;</a>
                               </div>
                           </div>
                           <!-- Every item has a dropzone such that other items can be dropped after each item: -->
@@ -219,7 +219,7 @@
                                   <p>
                                       {{research_project.short_description}}
                                   </p>
-                                  <button class="btn btn-primary btn-sm">more &raquo;</button>
+                                  <a href="{% url 'projects:edit1' pk=research_project.pk %}" class="btn btn-primary btn-sm">more &raquo;</a>
                               </div>
                           </div>
                           <!-- Every item has a dropzone such that other items can be dropped after each item: -->
