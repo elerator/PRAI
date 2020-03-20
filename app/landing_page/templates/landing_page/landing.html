@@ -82,7 +82,7 @@
 
       <div class="col-md-4 card-body d-flex flex-column">
           <h3>Watch your progress</h3>
-          <p> Keep track of the progress of your yearly projects and share with your collegues what you've been working on lately.</p>
+          <p> Keep track of the progress of your projects and share with your collegues what you've been working on lately.</p>
           {% if user.is_authenticated %}
           <a type="button" class="mt-auto btn btn-outline-primary" href={% url 'kanban:kanban' %}> Progress management &raquo;</a>
           {% else %}
@@ -92,7 +92,7 @@
 
       <div class="col-md-4 card-body d-flex flex-column">
           <h3>Manage your Workload</h3>
-          <p> Schedule your capacities according to your work-time model, oversee how much time you spend on each projects and plan your workload in advance. </p>
+          <p> Schedule your capacities according to your work-time-model, oversee how much time you spend on each project and plan your workload in advance. </p>
           {% if user.is_authenticated %}
           <a type="button" class="mt-auto btn btn-outline-primary" href="{% url 'capacities:capacities' %}" > Capacity management &raquo;</a>
           {% else %}
