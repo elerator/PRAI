@@ -34,9 +34,9 @@ def login_view(request):
         HttpResponse: Redirect to BASF login or Bad Request message.
     """
     try:
-        user = Person.objects.filter(username__iexact="gerstem5")#Bypass basf auth
-        django_login(request, user[0])
-        return HttpResponseRedirect(request.GET["next"])
+        #user = Person.objects.filter(username__iexact="gerstem5")#Bypass basf auth
+        #django_login(request, user[0])
+        #return HttpResponseRedirect(request.GET["next"])
 
         next = request.GET["next"]
         url = basf_login + "?redirect_uri=" + redirect_uri
