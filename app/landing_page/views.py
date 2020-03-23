@@ -54,27 +54,29 @@ def after_login(request):
     Returns:
         HttpResponseRedirect: Redirect to the redirect url (get request parameter)
     """
-    redirect_url = request.GET["next"]
-    auth_header = request.META
-    cookie_federation_access_token = request.COOKIES.get('basf_federation_access_token')
-    cookie_federation_cn = request.COOKIES.get('basf_federation_cn')
-    r = requests.post(token_to_info_url, data={'token': cookie_federation_access_token}, verify=False, timeout=30)
-    assert r.status_code == 200
-    session_federation = r.json()
+    try:
+        redirect_url = request.GET["next"]
+        auth_header = request.META
+        cookie_federation_access_token = request.COOKIES.get('basf_federation_access_token')
+        cookie_federation_cn = request.COOKIES.get('basf_federation_cn')
+        r = requests.post(token_to_info_url, data={'token': cookie_federation_access_token}, verify=False, timeout=30)
+        assert r.status_code == 200
+        session_federation = r.json()
 
-    if not 'error' in session_federation and session_federation['user_id'] == cookie_federation_cn:
-        #User is authenticated
-        user = Person.objects.filter(username__iexact=cookie_federation_cn)
-        if user.exists():
-            #User is member of production ai
-            django_login(request, user[0])
-            return HttpResponseRedirect(redirect_url)
+        if not 'error' in session_federation and session_federation['user_id'] == cookie_federation_cn:
+            #User is authenticated
+            user = Person.objects.filter(username__iexact=cookie_federation_cn)
+            if user.exists():
+                #User is member of production ai
+                django_login(request, user[0])
+                return HttpResponseRedirect(redirect_url)
+        #User not authentificated or not member of production AI
+        return HttpResponseRedirect(reverse_lazy("landing_page"))
+    except Exception as e:
+        #Something went wrong during authentification
+        return HttpResponseRedirect(reverse_lazy("landing_page"))
 
-    # authentication failed: Go back to login
-    url = basf_login
-    url += "?next="
-    url += quote(redirect_url, safe="")
-    return HttpResponseRedirect(url)
+
 
 
 def logout(request):
