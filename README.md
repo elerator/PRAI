@@ -14,7 +14,9 @@ Using PrAI is quick & simple: Minimize the administrative overhead to the necess
 
 ## Check it out
 - [Development version](https://app-dev.roqs.basf.net/prai_information_desk/)
+
 Kubecuddle:
+
 - [Kubecuddle Development](https://app-dev.roqs.basf.net/kubecuddle/v2/pod.html?deployment=prai-information-desk&namespace=prai-information-desk-dev)
 - [Kubecuddle QA](https://app-qa.roqs.basf.net/kubecuddle/v2/pod.html?deployment=prai-information-desk&namespace=prai-information-desk-qual)
 - [Kubecuddle Production](https://app.roqs.basf.net/kubecuddle/v2/pod.html?deployment=prai-information-desk&namespace=prai-information-desk-prod)
