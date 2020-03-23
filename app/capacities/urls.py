@@ -10,6 +10,4 @@ urlpatterns = [
     path('group_capacities', group_capacities, name='group_capacities'),
     path('download_group_capacities', download_group_capacities, name = 'download_group_capacities'),
     path('download_capacities', download_capacities, name = 'download_capacities'),
-
-
 ]

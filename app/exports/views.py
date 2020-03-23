@@ -12,6 +12,11 @@ import io
 
 
 def exports(request):
+    """ View for the exports page
+    Args:
+        request: The request object
+    Returns: rendered exports view
+    """
     context = {}
     try:#Try retrieving values from the database ...
         year = request.session.get('capacities_year', datetime.datetime.now().year)
@@ -25,6 +30,13 @@ def exports(request):
         return HttpResponse("Invalid session status" + str(e), status=404)
 
 def download_worktimes(request, year):
+    """ Endpoint for downloading work-times for the whole group as .xlsx file
+    Args:
+        request: The request object
+        year: The year the work-time-model should be downloaded for
+    Returns:
+        HttpResponse with the work-times for the whole group as .xlsx sheet
+    """
     worktimes = WorkTimeModel.objects.filter(year = year)
     worktimes = [[w.person,w.part_time_jan,w.part_time_feb,w.part_time_mar,
                   w.part_time_apr,w.part_time_may,w.part_time_jun,w.part_time_jul,
@@ -42,6 +54,12 @@ def download_worktimes(request, year):
     return response
 
 def download_projects(request):
+    """ Endpoint for downloading the project list as .xlsx
+    Args:
+        request: The request object
+    Returns:
+        HttpResponse with the project list as .xlsx
+    """
     projects = ResearchProject.objects.all()
     partners = [[c for c in p.contributors.all()] for p in projects]
     projects = [[p.title, p.project_partner, p.goal, p.milestones, p.short_description,p.plant_name,
@@ -64,6 +82,12 @@ def download_projects(request):
     return response
 
 def download_database(request):
+    """ Endpoint for downloading complete database as .sqlite3 file
+    Args:
+        request: The request object
+    Returns:
+        The a HttpResponse with the .sqlite3 file that represents the database
+    """
     with open(os.path.join(Path(BASE_DIR).parent,"database/db.sqlite3"), "rb") as f:
         response = HttpResponse(f.read(),content_type="application/x-sqlite3")
         response['Content-Disposition'] = 'attachment; filename="db.sqlite3"'
