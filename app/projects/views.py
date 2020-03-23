@@ -30,9 +30,6 @@ from django.contrib.auth.decorators import login_required
 import os
 import datetime
 
-def tests(request):
-    return HttpResponse(os.listdir("\\\\basfad.basf.net\\groups\\0050-BASF\\LUDWIGSHAFEN\\R\\GROUPS\\HM"))
-
 @login_required()
 def set_search_in(request):
     """ Adds the field search_in to the session object
@@ -48,6 +45,13 @@ def set_search_in(request):
 
 @login_required()
 def search(request):
+    """ Searches for projects according to search_string (post parameter) and displayes them as ListView.
+        Fields to search in are determined via the search_in field in the session.
+    Args:
+        request objecty
+    Returns:
+        Rendered search results as list view
+    """
     if request.method == 'POST':
         try:
             search_string = (request.POST["search_string"])
@@ -118,6 +122,7 @@ class ProjectList(ListView):
         return HttpResponseRedirect(reverse_lazy('projects:project-list'))
 
     def get_queryset(self):
+        """ Returns the queryset that is retrieved from the database and processed by the ListView"""
         try:
             query_set = ResearchProject.objects.order_by(Lower(self.request.session.get('project_list_sorting', 'title')))
             list(query_set)#evaluate and throw exception at this point if key for sorting is missing
@@ -203,7 +208,7 @@ class ProjectEdit(UpdateView):
         return render(request, self.template_name, {'project_letter_main': form})
 
     def redirect(self, pk = None):
-        """ Returns the redirect after the form was successfully processed. Redirects to current page. Override for custom redirects.
+        """ Returns the redirect after the form was successfully processed. Redirects to current page. Override method for custom redirects.
         Args:
             pk: primary key.
         """
@@ -228,7 +233,17 @@ class ProjectEditThird(UpdateView):
     template_name = 'projects/edit3.html'
     form_class = Workload
 
-    def disable_past_month(self, form, form_year):
+    def disable_past_month(self, form, form_year, latest_modification_on_day=4):
+        """ Ensures that it is not possible to edit fields for worktimes in past month.
+            For current month modifications have to be done before latest_modification_on_day.
+        Args:
+            form: Form that is modified
+            form_year: The year the input form was created for
+            latest_modification_on_day: If the current day of the month is greater then latest_modification_on_day,
+                                        the field for worktimes in the respective month will be disabled.
+        Returns:
+            form: The input form with disabled fields for past months.
+        """
         month_names = list(form.fields.keys())
         now = datetime.datetime.now()
 
@@ -246,7 +261,7 @@ class ProjectEditThird(UpdateView):
                 if form_month < month:
                     form.fields[month_names[form_month-1]].widget.attrs['disabled'] = 'true'
                     form.fields[month_names[form_month-1]].required = False
-                if form_month == month and day > 4:
+                if form_month == month and day > latest_modification_on_day:
                     form.fields[month_names[form_month-1]].widget.attrs['disabled'] = 'true'
                     form.fields[month_names[form_month-1]].required = False
         return form
@@ -343,6 +358,13 @@ class ProjectEditThird(UpdateView):
 
 @login_required()
 def delete_work_time(request, pk):
+    """ Endpoint for deleting work time models
+    Args:
+        request: The request object
+        pk: Primary key of worktime
+    Returns:
+        HttpResponseRedirect to previous page or HttpResponse that indicates failure to delete
+    """
     if request.method == "POST":
         obj = get_object_or_404(YearlyWorkload, id = pk)
         try:
