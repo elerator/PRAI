@@ -1,7 +1,7 @@
 from django import forms
 from .models import *
 
-public_labels = {#attributes and their respective labels that can be seen by any authentificated user. Budget etc are ommitted here.
+public_labels = {#attributes and their respective labels that can be seen by any authentificated user.
     "title": "Product or project Title",
     "project_partner" : "Originator(s) and project partners ",
     "goal" : "Goal and motivation",

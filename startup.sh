@@ -11,7 +11,7 @@ FILE=./database/db.sqlite3
 if [ -f "$FILE" ]; then
     echo "$FILE exists already in mounted persistant volume. Do not copy from repository ..."
 else
-    echo "Copy db.sqlite3 from initial_database into Database (persistant volume)"
+    echo "Copy db.sqlite3 from initial_database into ./database (persistant volume)"
     cp ./initial_database/db.sqlite3 ./database/db.sqlite3
 fi
 
