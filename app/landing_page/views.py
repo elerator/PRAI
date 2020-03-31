@@ -27,7 +27,7 @@ redirect_uri = "https%3A%2F%2Fapp-dev.roqs.basf.net%2Fprai_information_desk%2Faf
 
 def login_view(request):
     """ Method to redirect user to the BASF federation login.
-        The redirect_uri is passed as get_request parameter andrefers to the route that corresponds to after_login.
+        The redirect_uri is passed as get_request parameter and refers to the route that corresponds to after_login.
     Args:
         request: Request object.
     Returns:
@@ -75,8 +75,6 @@ def after_login(request):
     except Exception as e:
         #Something went wrong during authentification
         return HttpResponseRedirect(reverse_lazy("landing_page"))
-
-
 
 
 def logout(request):
