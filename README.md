@@ -27,11 +27,11 @@ For additional logs, try Kibana:
 - [Kibana QA](https://app-qa.roqs.basf.net/kibana/app/kibana#/discover?_g=()&_a=(columns:!(message),index:'531e0890-ce55-11e9-b491-8b6feaa9763f',interval:auto,query:(language:lucene,query:'docker.container.image:prai_information_desk'),sort:!('@timestamp',desc)))
 - [Kibana Production](https://app.roqs.basf.net/kibana/app/kibana#/discover?_g=()&_a=(columns:!(message),index:'531e0890-ce55-11e9-b491-8b6feaa9763f',interval:auto,query:(language:lucene,query:'docker.container.image:prai_information_desk'),sort:!('@timestamp',desc)))
 
-## Local testing
+## Setup & Local testing
 For local testing adjust the settings in ./app/lightweight_research_tool/settings.py i.e. set FORCE_SCRIPT_NAME to an empty string.
 
 If you do not want to use Docker you can start the app locally using "python ./app/manage.py runserver" given django and the other requirements (see requirements.txt) are met and the respective packages installed.
 
 To bypass the BASF federation login for local testing edit ./app/landing_page/views.py. Respective comments are left in the code.
 
-Use the export feature to download and replace the database (./database/db.sqlite3) if you desire to make local changes.
+Use the export feature to download and replace the database (./database/db.sqlite3) if you desire to make local changes. You can overwrite the existing database in the persistant volume by editing startup.sh (see comments).
